@@ -344,7 +344,7 @@ export class MasonryImagesComponent implements OnInit {
   }
   open(index: number): void {
     // open lightbox
-    this._lightbox.open(this._albums, index);
+    this._lightbox.open(this._albums, index, { alwaysShowNavOnTouchDevices: true, wrapAround: true, showImageNumberLabel: true, centerVertically: true });
   }
 
 }
