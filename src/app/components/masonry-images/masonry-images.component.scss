@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+.masonry-demo {
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    @media (min-width: 320px) and (max-width: 480px) {
+        width: 100%;
+    }
+}
+
+.links {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.links a {
+    flex-basis: 80%;
+    color: #009fb7;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.links a:hover {
+    color: #fe4a49;
+}
+
+.links iframe {
+    flex-basis: 50%;
+}
+
+ngx-masonry {
+    margin: 0 auto;
+}
+
+button {
+    cursor: pointer;
+    width: 40%;
+    height: 50px;
+    background: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 50px;
+}
+
+.masonry-item {
+    margin-bottom: 20px;
+    background-color: #f1f1f1;
+    background-size: cover;
+    width: 340px;
+
+    &:hover img {
+        opacity: 0.8;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        min-height: 340px;
+
+        opacity: 1;
+        display: block;
+        transition: 0.5s ease;
+        backface-visibility: hidden;
+    }
+
+    .overlayed-tap {
+        transition: 0.5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        text-align: center;        
+        display: flex;
+    }
+    &:hover .overlayed-tap {
+        opacity: 1;
+    }
+
+    .viewed-users {
+        color: white;
+        font-size: 16px;
+        padding: 16px 16px;
+        display: flex;
+        .message-text{
+            padding-left: 4px;
+        }
+    }
+}
