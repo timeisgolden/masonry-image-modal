@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Lightbox } from 'ngx-lightbox';
 import { NgxMasonryOptions } from 'ngx-masonry';
+import { Lightbox } from '../lightbox-modal';
+import { DeviceDetectorService } from 'ngx-device-detector';
+// import { Lightbox } from '../lightbox-modal';
 
 @Component({
   selector: 'app-masonry-images',
@@ -322,14 +324,16 @@ export class MasonryImagesComponent implements OnInit {
     }
   ];
   _albums: any[] = [];
-  constructor(private _lightbox: Lightbox) {
+  constructor(private _lightbox: Lightbox, private deviceService: DeviceDetectorService) {
     this._albums = [];
     this.dummyPictures.forEach(dummy => {
       this._albums.push(
         {
           src: dummy.picture,
           caption: dummy.picture,
-          thumb: dummy.picture
+          thumb: dummy.picture,
+          like: 2000,
+          messages: 345
         }
       )
     });
@@ -343,6 +347,9 @@ export class MasonryImagesComponent implements OnInit {
     this.masonryImages = this._albums.slice(0, this.limit);
   }
   open(index: number): void {
+    if (this.deviceService.isMobile() || this.deviceService.isTablet()) {
+      return;
+    }
     // open lightbox
     this._lightbox.open(this._albums, index, { alwaysShowNavOnTouchDevices: true, wrapAround: true, showImageNumberLabel: true, centerVertically: true });
   }

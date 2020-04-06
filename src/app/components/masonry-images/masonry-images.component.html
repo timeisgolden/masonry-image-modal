@@ -3,7 +3,7 @@
     <ngx-masonry [options]="masonryOptions" [useImagesLoaded]="true">
         <div ngxMasonryItem *ngFor="let picture of masonryImages; let i = index;" class="masonry-item">
             <img src="{{picture.src}}" (click)="open(i)">
-            <div class="overlayed-tap">
+            <div class="overlayed-tap" (click)="open(i)">
                 <div class="viewed-users">
                     <mat-icon>favorite</mat-icon>
                     <div class="message-text">

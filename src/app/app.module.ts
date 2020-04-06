@@ -26,10 +26,13 @@ import { AuthService } from "./shared/services/auth.service";
 
 // for masonry image modal
 import { NgxMasonryModule } from 'ngx-masonry';
-import { LightboxModule } from 'ngx-lightbox';
+// import { LightboxModule } from 'ngx-lightbox';
+import { LightboxModule } from './components/lightbox-modal';
 import { MasonryImagesComponent } from './components/masonry-images/masonry-images.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from "@angular/material/icon";
+// import { MatIconModule } from "@angular/material/icon";
+import { MaterialModule } from './shared/material/material.module';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,8 +52,9 @@ import { MatIconModule } from "@angular/material/icon";
     ReactiveFormsModule,
     NgxMasonryModule,
     LightboxModule,
-    MatIconModule,
-    BrowserAnimationsModule
+    MaterialModule,
+    BrowserAnimationsModule,
+    DeviceDetectorModule.forRoot()
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
