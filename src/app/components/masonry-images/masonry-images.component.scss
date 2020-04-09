@@ -60,6 +60,11 @@ button {
     background-color: #f1f1f1;
     background-size: cover;
     width: 250px;
+
+    transition-property: opacity !important;
+    transition-duration: 0.2s !important;
+    transition-delay: 0ms !important;
+
     cursor: pointer;
     @media (min-width: 320px) and (max-width: 480px) {
         width: 100%;
@@ -101,26 +106,29 @@ button {
         display: flex;
         .message-text {
             padding-left: 4px;
+            margin: auto;
         }
     }
-
+    .lb-footprintImage {
+        width: 32px;
+        height: 32px;
+        min-height: 28px;
+    }
     .masonry-content {
         padding: 0;
         background-color: white;
         @media (min-width: 320px) and (max-width: 480px) {
-            padding: 4px;
+            padding: 10px;
+            background: black;
+            color: white;
         }
         .lb-likeContainer {
             display: flex;
-            .lb-footprintImage {
-                width: 32px;
-                height: 32px;
-                min-height: 28px;
-            }
+
             .lb-like {
                 display: block;
                 margin: auto 0px;
-                color: black;
+                color: white;
             }
         }
         .lb-essenceContainer,

@@ -6,21 +6,15 @@
             <img src="{{picture.src}}" (click)="open(i)">
             <div *ngIf="!_isMobile" class="overlayed-tap" (click)="open(i)">
                 <div class="viewed-users">
-                    <mat-icon>favorite</mat-icon>
+                    <img class="lb-footprintImage" src="assets/images/footprint.png" alt="footprint">
                     <div class="message-text">
                         3.4k
                     </div>
                 </div>
-                <div class="viewed-users">
-                    <mat-icon>chat_bubble</mat-icon>
-                    <div class="message-text">
-                        563
-                    </div>
-                </div>
             </div>
-            <div *ngIf="_isMobile" class="masonry-content" #toolbar>
+            <div *ngIf="_isMobile && picture.isShow" class="masonry-content">
                 <div class="lb-likeContainer">
-                    <img class="lb-footprintImage" src="assets/images/footprint-black.png" alt="footprint">
+                    <img class="lb-footprintImage" src="assets/images/footprint.png" alt="footprint">
                     <p class="lb-like">3.4k</p>
                 </div>
                 <div class="lb-essenceContainer">

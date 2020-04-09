@@ -338,7 +338,8 @@ export class MasonryImagesComponent implements OnInit {
           caption: dummy.picture,
           thumb: dummy.picture,
           like: 2000,
-          messages: 345
+          messages: 345,
+          isShow: false
         }
       )
     });
@@ -367,6 +368,7 @@ export class MasonryImagesComponent implements OnInit {
   }
   open(index: number): void {
     if (this._isMobile) {
+      this._albums[index].isShow = !this._albums[index].isShow
       return;
     }
     // open lightbox
