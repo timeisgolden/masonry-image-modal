@@ -40,8 +40,8 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
   @ViewChild('navArrow', { static: false }) _navArrowElem: ElementRef;
   @ViewChild('dataContainer', { static: false }) _dataContainerElem: ElementRef;
   @ViewChild('image', { static: false }) _imageElem: ElementRef;
-  @ViewChild('caption', { static: false }) _captionElem: ElementRef;
-  @ViewChild('number', { static: false }) _numberElem: ElementRef;
+  // @ViewChild('caption', { static: false }) _captionElem: ElementRef;
+  // @ViewChild('number', { static: false }) _numberElem: ElementRef;
   public content: any;
   public ui: any;
   private _cssValue: any;
@@ -59,7 +59,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
     // initialize data
     this.options = this.options || {};
     this.params = this.params || {};
-    
+
     this.album = this.album || [];
     this.currentImageIndex = this.currentImageIndex || 0;
     this._windowRef = this._lightboxWindowRef.nativeWindow;
@@ -134,12 +134,21 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
   }
 
   public close($event: any): void {
+    console.log("$event.target.classList:", $event.target.classList);
+
     $event.stopPropagation();
     if ($event.target.classList.contains('lightbox') ||
       $event.target.classList.contains('lb-loader') ||
       $event.target.classList.contains('lb-close')) {
+      alert(">>>>>>>")
       this._lightboxEvent.broadcastLightboxEvent({ id: LIGHTBOX_EVENT.CLOSE, data: null });
     }
+  }
+  public closeDialog($event: any): void {
+    console.log("$event.target.classList:", $event.target.classList);
+
+    $event.stopPropagation();
+    this._lightboxEvent.broadcastLightboxEvent({ id: LIGHTBOX_EVENT.CLOSE, data: null });
   }
 
   public nextImage(): void {
@@ -364,19 +373,19 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
     this._rendererRef.setStyle(this._dataContainerElem.nativeElement,
       '-webkit-animation-duration', `${fadeDuration}s`);
     this._rendererRef.setStyle(this._dataContainerElem.nativeElement,
-      'animation-duration', `${fadeDuration}s`);
+    'animation-duration', `${fadeDuration}s`);
     this._rendererRef.setStyle(this._imageElem.nativeElement,
       '-webkit-animation-duration', `${fadeDuration}s`);
     this._rendererRef.setStyle(this._imageElem.nativeElement,
       'animation-duration', `${fadeDuration}s`);
-    this._rendererRef.setStyle(this._captionElem.nativeElement,
-      '-webkit-animation-duration', `${fadeDuration}s`);
-    this._rendererRef.setStyle(this._captionElem.nativeElement,
-      'animation-duration', `${fadeDuration}s`);
-    this._rendererRef.setStyle(this._numberElem.nativeElement,
-      '-webkit-animation-duration', `${fadeDuration}s`);
-    this._rendererRef.setStyle(this._numberElem.nativeElement,
-      'animation-duration', `${fadeDuration}s`);
+    // this._rendererRef.setStyle(this._captionElem.nativeElement,
+    //   '-webkit-animation-duration', `${fadeDuration}s`);
+    // this._rendererRef.setStyle(this._captionElem.nativeElement,
+    // 'animation-duration', `${fadeDuration}s`);
+    // this._rendererRef.setStyle(this._numberElem.nativeElement,
+    //   '-webkit-animation-duration', `${fadeDuration}s`);
+    // this._rendererRef.setStyle(this._numberElem.nativeElement,
+    //   'animation-duration', `${fadeDuration}s`);
   }
 
   private _end(): void {

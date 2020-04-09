@@ -1,9 +1,10 @@
-<div class="masonry-demo">
+<div class="masonry-demo" infiniteScroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()" [scrollWindow]="false" #tabsContentRef>
     <h1>Ngx Masonry Demo</h1>
     <ngx-masonry [options]="masonryOptions" [useImagesLoaded]="true">
         <div ngxMasonryItem *ngFor="let picture of masonryImages; let i = index;" class="masonry-item">
             <img src="{{picture.src}}" (click)="open(i)">
-            <div class="overlayed-tap" (click)="open(i)">
+            <div *ngIf="!_isMobile" class="overlayed-tap" (click)="open(i)">
                 <div class="viewed-users">
                     <mat-icon>favorite</mat-icon>
                     <div class="message-text">
@@ -17,9 +18,32 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="_isMobile" class="masonry-content" #toolbar>
+                <div class="lb-likeContainer">
+                    <img class="lb-footprintImage" src="assets/images/footprint-black.png" alt="footprint">
+                    <p class="lb-like">3.4k</p>
+                </div>
+                <div class="lb-essenceContainer">
+                    <p class="lb-title">Rueben's Essence:</p>
+                    <p class="lb-description">
+                        Lorem ipsum dolor sit amet, consectetur adpiscing elit, sed do Lorem ipsum dolor sit amet,
+                        consectetur
+                        adpiscing elit, sed do
+                    </p>
+                </div>
+                <div class="lb-footprintContainer">
+                    <p class="lb-title">Rueben's Footprint:</p>
+                    <p class="lb-description">
+                        Lorem ipsum dolor sit amet, consectetur adpiscing elit, sed do Lorem ipsum dolor sit amet,
+                        consectetur
+                        adpiscing elit, sed do
+                    </p>
+                </div>
+            </div>
+
         </div>
     </ngx-masonry>
 
-    <button *ngIf="limit < 100" (click)="showMoreImages()">Show More Images</button>
+    <!-- <button *ngIf="limit < 100" (click)="showMoreImages()">Show More Images</button> -->
     <h2 *ngIf="limit >= 100">No More Images</h2>
 </div>

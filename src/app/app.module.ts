@@ -33,6 +33,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { MatIconModule } from "@angular/material/icon";
 import { MaterialModule } from './shared/material/material.module';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +56,8 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     LightboxModule,
     MaterialModule,
     BrowserAnimationsModule,
-    DeviceDetectorModule.forRoot()
+    DeviceDetectorModule.forRoot(),
+    InfiniteScrollModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],
@@ -62,3 +65,4 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 })
 
 export class AppModule { }
+platformBrowserDynamic().bootstrapModule(AppModule);

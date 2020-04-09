@@ -25,7 +25,7 @@ export class Lightbox {
   }
 
   open(album: Array<IAlbum>, curIndex = 0, options = {}): void {
-    const overlayComponentRef = this._createComponent(LightboxOverlayComponent);
+    // const overlayComponentRef = this._createComponent(LightboxOverlayComponent);
     const componentRef = this._createComponent(LightboxComponent);
     const newOptions = {};
 
@@ -40,23 +40,23 @@ export class Lightbox {
     componentRef.instance.cmpRef = componentRef;
 
     // attach input to overlay
-    overlayComponentRef.instance.options = newOptions;
-    overlayComponentRef.instance.cmpRef = overlayComponentRef;
+    // overlayComponentRef.instance.options = newOptions;
+    // overlayComponentRef.instance.cmpRef = overlayComponentRef;
 
     // FIXME: not sure why last event is broadcasted (which is CLOSED) and make
     // lightbox can not be opened the second time.
     // Need to timeout so that the OPEN event is set before component is initialized
     setTimeout(() => {
-      this._applicationRef.attachView(overlayComponentRef.hostView);
+      // this._applicationRef.attachView(overlayComponentRef.hostView);
       this._applicationRef.attachView(componentRef.hostView);
-      overlayComponentRef.onDestroy(() => {
-        this._applicationRef.detachView(overlayComponentRef.hostView);
-      });
+      // overlayComponentRef.onDestroy(() => {
+      //   this._applicationRef.detachView(overlayComponentRef.hostView);
+      // });
       componentRef.onDestroy(() => {
         this._applicationRef.detachView(componentRef.hostView);
       });
 
-      this._documentRef.querySelector('body').appendChild(overlayComponentRef.location.nativeElement);
+      // this._documentRef.querySelector('body').appendChild(overlayComponentRef.location.nativeElement);
       this._documentRef.querySelector('body').appendChild(componentRef.location.nativeElement);
     });
   }

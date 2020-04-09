@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgxMasonryOptions } from 'ngx-masonry';
 import { Lightbox } from '../lightbox-modal';
 import { DeviceDetectorService } from 'ngx-device-detector';
+
 // import { Lightbox } from '../lightbox-modal';
 
 @Component({
@@ -10,7 +11,9 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   styleUrls: ['./masonry-images.component.scss']
 })
 export class MasonryImagesComponent implements OnInit {
-
+  _initload: boolean = true;
+  @ViewChild('tabsContentRef', { static: true }) tabsContentRef: ElementRef;
+  // @ViewChild("tabsContentRef") tabsContentRef: ElementRef;
   public masonryOptions: NgxMasonryOptions = {
     transitionDuration: '0.2s',
     gutter: 20,
@@ -324,7 +327,9 @@ export class MasonryImagesComponent implements OnInit {
     }
   ];
   _albums: any[] = [];
-  constructor(private _lightbox: Lightbox, private deviceService: DeviceDetectorService) {
+
+  _isMobile: boolean = false;
+  constructor(private _lightbox: Lightbox, public deviceService: DeviceDetectorService) {
     this._albums = [];
     this.dummyPictures.forEach(dummy => {
       this._albums.push(
@@ -339,19 +344,40 @@ export class MasonryImagesComponent implements OnInit {
     });
   }
   ngOnInit() {
+    if (this.deviceService.isMobile() || this.deviceService.isTablet()) {
+      this._isMobile = true;
+    } else {
+      this._isMobile = false;
+    }
     this.masonryImages = this._albums.slice(0, this.limit);
+    this.gotoTop();
   }
-
+  gotoTop() {
+    console.log("?>>>>>>>>", this.tabsContentRef);
+    this.tabsContentRef.nativeElement.scrollTo(0, 0);
+    // window.scroll({
+    //   top: 0,
+    //   left: 0,
+    //   behavior: 'smooth'
+    // });
+  }
   showMoreImages() {
     this.limit += 15;
     this.masonryImages = this._albums.slice(0, this.limit);
   }
   open(index: number): void {
-    if (this.deviceService.isMobile() || this.deviceService.isTablet()) {
+    if (this._isMobile) {
       return;
     }
     // open lightbox
     this._lightbox.open(this._albums, index, { alwaysShowNavOnTouchDevices: true, wrapAround: true, showImageNumberLabel: true, centerVertically: true });
   }
-
+  onScroll() {
+    console.log('scrolled!!');
+    // if (!this._initload) {
+    this.showMoreImages();
+    // } else {
+    //   this._initload = !this._initload;
+    // }
+  }
 }

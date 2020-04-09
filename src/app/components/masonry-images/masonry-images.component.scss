@@ -5,8 +5,11 @@ body {
 
 .masonry-demo {
     text-align: center;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
+
+    height: 100%;
+    overflow: auto;
     @media (min-width: 320px) and (max-width: 480px) {
         width: 100%;
     }
@@ -37,6 +40,9 @@ body {
 
 ngx-masonry {
     margin: 0 auto;
+    @media (min-width: 320px) and (max-width: 480px) {
+        // margin: 0;
+    }
 }
 
 button {
@@ -53,8 +59,11 @@ button {
     margin-bottom: 20px;
     background-color: #f1f1f1;
     background-size: cover;
-    width: 340px;
-
+    width: 250px;
+    cursor: pointer;
+    @media (min-width: 320px) and (max-width: 480px) {
+        width: 100%;
+    }
     &:hover img {
         opacity: 0.8;
     }
@@ -78,7 +87,7 @@ button {
         left: 50%;
         transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
-        text-align: center;        
+        text-align: center;
         display: flex;
     }
     &:hover .overlayed-tap {
@@ -90,8 +99,38 @@ button {
         font-size: 16px;
         padding: 16px 16px;
         display: flex;
-        .message-text{
+        .message-text {
             padding-left: 4px;
+        }
+    }
+
+    .masonry-content {
+        padding: 0;
+        background-color: white;
+        @media (min-width: 320px) and (max-width: 480px) {
+            padding: 4px;
+        }
+        .lb-likeContainer {
+            display: flex;
+            .lb-footprintImage {
+                width: 32px;
+                height: 32px;
+                min-height: 28px;
+            }
+            .lb-like {
+                display: block;
+                margin: auto 0px;
+                color: black;
+            }
+        }
+        .lb-essenceContainer,
+        .lb-footprintContainer {
+            text-align: left;
+            margin-top: 10px;
+            .lb-title {
+                font-size: 14px;
+                font-weight: bold;
+            }
         }
     }
 }
