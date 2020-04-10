@@ -2,6 +2,8 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { NgxMasonryOptions } from 'ngx-masonry';
 import { Lightbox } from '../lightbox-modal';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { ImagesService } from 'src/app/shared/services/images.service';
+import { Ft_image } from 'src/app/shared/models.model';
 
 // import { Lightbox } from '../lightbox-modal';
 
@@ -329,7 +331,9 @@ export class MasonryImagesComponent implements OnInit {
   _albums: any[] = [];
 
   _isMobile: boolean = false;
-  constructor(private _lightbox: Lightbox, public deviceService: DeviceDetectorService) {
+  constructor(
+    private _lightbox: Lightbox, public deviceService: DeviceDetectorService, private imagesService: ImagesService
+  ) {
     this._albums = [];
     this.dummyPictures.forEach(dummy => {
       this._albums.push(
@@ -350,17 +354,23 @@ export class MasonryImagesComponent implements OnInit {
     } else {
       this._isMobile = false;
     }
+
+    this.imagesService.getImages().subscribe(data => {
+      let images = data.map(e => {
+        return {
+          id: e.payload.doc.id,
+          data: e.payload.doc.data()
+        };
+      });
+      console.log("firestore images: ", images);
+
+    });
+
     this.masonryImages = this._albums.slice(0, this.limit);
     this.gotoTop();
   }
   gotoTop() {
-    console.log("?>>>>>>>>", this.tabsContentRef);
     this.tabsContentRef.nativeElement.scrollTo(0, 0);
-    // window.scroll({
-    //   top: 0,
-    //   left: 0,
-    //   behavior: 'smooth'
-    // });
   }
   showMoreImages() {
     this.limit += 15;
