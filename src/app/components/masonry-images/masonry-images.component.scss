@@ -100,13 +100,16 @@ button {
     }
 
     .viewed-users {
-        color: white;
         font-size: 16px;
         padding: 16px 16px;
         display: flex;
         .message-text {
+            color: white;
             padding-left: 4px;
             margin: auto;
+        }
+        .footprinted {
+            color: #ed7d2c;
         }
     }
     .lb-footprintImage {
@@ -124,11 +127,13 @@ button {
         }
         .lb-likeContainer {
             display: flex;
-
             .lb-like {
                 display: block;
                 margin: auto 0px;
                 color: white;
+            }
+            .footprinted {
+                color: #ed7d2c;
             }
         }
         .lb-essenceContainer,

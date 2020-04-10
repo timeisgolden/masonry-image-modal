@@ -5,11 +5,13 @@ import { LightboxEvent, LightboxWindowRef } from './lightbox-event.service';
 import { LightboxOverlayComponent } from './lightbox-overlay.component';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 
 @NgModule({
-  declarations: [ LightboxOverlayComponent, LightboxComponent ],
+  declarations: [LightboxOverlayComponent, LightboxComponent],
   imports: [
-    MatIconModule
+    MatIconModule,
+    PipesModule
   ],
   providers: [
     Lightbox,
@@ -17,6 +19,6 @@ import { MatIconModule } from '@angular/material/icon';
     LightboxEvent,
     LightboxWindowRef
   ],
-  entryComponents: [ LightboxOverlayComponent, LightboxComponent ]
+  entryComponents: [LightboxOverlayComponent, LightboxComponent]
 })
 export class LightboxModule { }

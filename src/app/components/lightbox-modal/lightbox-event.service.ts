@@ -8,11 +8,13 @@ export interface IEvent {
 }
 
 export interface IAlbum {
+  id: string;
   src: string;
   caption?: string;
   thumb: string;
   like?: string;
   messages?: string;
+  nindex?: number
 }
 
 export const LIGHTBOX_EVENT = {
@@ -35,13 +37,13 @@ export class LightboxEvent {
   }
 }
 
-function getWindow (): any {
+function getWindow(): any {
   return window;
 }
 
 @Injectable()
 export class LightboxWindowRef {
-  get nativeWindow (): any {
+  get nativeWindow(): any {
     return getWindow();
   }
 }

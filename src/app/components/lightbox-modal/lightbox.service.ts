@@ -9,6 +9,7 @@ import { LightboxComponent } from './lightbox.component';
 import { LightboxConfig } from './lightbox-config.service';
 import { LightboxEvent, LIGHTBOX_EVENT, IAlbum } from './lightbox-event.service';
 import { LightboxOverlayComponent } from './lightbox-overlay.component';
+import { Ft_image } from 'src/app/shared/models.model';
 
 @Injectable()
 export class Lightbox {
@@ -24,7 +25,7 @@ export class Lightbox {
     this._documentRef = window.document;
   }
 
-  open(album: Array<IAlbum>, curIndex = 0, options = {}): void {
+  open(album: Array<Ft_image>, curIndex = 0, options = {}): void {
     // const overlayComponentRef = this._createComponent(LightboxOverlayComponent);
     const componentRef = this._createComponent(LightboxComponent);
     const newOptions = {};

@@ -14,6 +14,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { HttpClientModule } from "@angular/common/http";
 
 // Firebase services + enviorment module
 import { AngularFireModule } from "@angular/fire";
@@ -35,6 +36,7 @@ import { MaterialModule } from './shared/material/material.module';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { PipesModule } from './shared/pipes/pipes.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +45,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
     DashboardComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    MasonryImagesComponent,
+    MasonryImagesComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,9 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
     MaterialModule,
     BrowserAnimationsModule,
     DeviceDetectorModule.forRoot(),
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    HttpClientModule,
+    PipesModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent],

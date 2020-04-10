@@ -5,30 +5,29 @@
     </a>
   </div>
   <div class="lb-actionContainer">
-    <!-- <a class="lb-action">
-      <mat-icon>favorite_border</mat-icon>
-    </a>
-    <a class="lb-action">
-      <mat-icon>chat_bubble_outline</mat-icon>
-    </a> -->
   </div>
 </div>
 <div class="lb-mainContainer">
   <div class="lb-outerContainer transition" #outerContainer>
     <div class="lb-container" #container>
-      <img class="lb-image" [src]="album[currentImageIndex].src" class="lb-image animation fadeIn"
+      <img class="lb-image" [src]="album[currentImageIndex].url" class="lb-image animation fadeIn"
         [hidden]="ui.showReloader" #image>
-
-      <div class="lb-loader" [hidden]="!ui.showReloader" (click)="close($event)">
-        <a class="lb-cancel"></a>
-      </div>
     </div>
   </div>
   <div class="lb-dataContainer" [hidden]="ui.showReloader" #dataContainer>
     <div class="lb-data">
       <div class="lb-likeContainer">
-        <img class="lb-footprintImage" src="assets/images/footprint.png" alt="footprint">
-        <p class="lb-like">3.4k</p>
+        <img [hidden]="album[currentImageIndex].footPrinted" class="lb-footprintImage" src="assets/images/footprint.png"
+          alt="footprint" (click)="onClickFootprint()">
+        <img [hidden]="!album[currentImageIndex].footPrinted" class="lb-footprintImage"
+          src="assets/images/footprint_selected.png" alt="footprint" (click)="onClickFootprint()">
+
+        <p [hidden]="album[currentImageIndex].footPrinted" class="lb-like">
+          {{album[currentImageIndex].likes  | countAbtract}}
+        </p>
+        <p [hidden]="!album[currentImageIndex].footPrinted" class="lb-like footprinted">
+          {{album[currentImageIndex].likes  | countAbtract}}
+        </p>
       </div>
       <div class="lb-essenceContainer">
         <p class="lb-title">Rueben's Essence:</p>
@@ -68,7 +67,7 @@
     </div>
   </div>
 </div>
-<div class="lb-nav" [hidden]="!ui.showArrowNav" #navArrow>
-  <a class="lb-prev" [hidden]="!ui.showLeftArrow" (click)="prevImage()" #leftArrow></a>
-  <a class="lb-next" [hidden]="!ui.showRightArrow" (click)="nextImage()" #rightArrow></a>
-</div>
+<a class="lb-prev" [hidden]="!ui.showLeftArrow" (click)="prevImage()" #leftArrow></a>
+<a class="lb-next" [hidden]="!ui.showRightArrow" (click)="nextImage()" #rightArrow></a>
+<!-- <div class="lb-nav" [hidden]="!ui.showArrowNav" #navArrow>
+</div> -->

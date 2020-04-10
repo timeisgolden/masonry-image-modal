@@ -2,20 +2,27 @@
     (scrolled)="onScroll()" [scrollWindow]="false" #tabsContentRef>
     <h1>Ngx Masonry Demo</h1>
     <ngx-masonry [options]="masonryOptions" [useImagesLoaded]="true">
-        <div ngxMasonryItem *ngFor="let picture of masonryImages; let i = index;" class="masonry-item">
-            <img src="{{picture.src}}" (click)="open(i)">
+        <div ngxMasonryItem *ngFor="let picture of _albums; let i = index;" class="masonry-item">
+            <img src="{{picture.url}}" (click)="open(i)">
             <div *ngIf="!_isMobile" class="overlayed-tap" (click)="open(i)">
                 <div class="viewed-users">
-                    <img class="lb-footprintImage" src="assets/images/footprint.png" alt="footprint">
-                    <div class="message-text">
-                        3.4k
+                    <img *ngIf="!picture.footPrinted" class="lb-footprintImage" src="assets/images/footprint.png"
+                        alt="footprint">
+                    <img *ngIf="picture.footPrinted" class="lb-footprintImage"
+                        src="assets/images/footprint_selected.png" alt="footprint">
+                    <div class="message-text" [ngClass]="{'footprinted': picture.footPrinted}">
+                        {{picture.likes | countAbtract}}
                     </div>
                 </div>
             </div>
             <div *ngIf="_isMobile && picture.isShow" class="masonry-content">
                 <div class="lb-likeContainer">
-                    <img class="lb-footprintImage" src="assets/images/footprint.png" alt="footprint">
-                    <p class="lb-like">3.4k</p>
+                    <img *ngIf="!picture.footPrinted" class="lb-footprintImage" src="assets/images/footprint.png"
+                        (click)="onClickFootprint(picture)">
+                    <img *ngIf="picture.footPrinted" class="lb-footprintImage"
+                        src="assets/images/footprint_selected.png" (click)="onClickFootprint(picture)">
+                    <p class="lb-like" [ngClass]="{'footprinted': picture.footPrinted}">{{picture.likes | countAbtract}}
+                    </p>
                 </div>
                 <div class="lb-essenceContainer">
                     <p class="lb-title">Rueben's Essence:</p>

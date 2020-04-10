@@ -18,6 +18,8 @@ import {
   LightboxEvent,
   LightboxWindowRef,
 } from './lightbox-event.service';
+import { ImagesService } from 'src/app/shared/services/images.service';
+import { Ft_image } from 'src/app/shared/models.model';
 
 @Component({
   templateUrl: './lightbox.component.html',
@@ -28,7 +30,7 @@ import {
   }
 })
 export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnInit {
-  @Input() album: Array<IAlbum>;
+  @Input() album: Array<Ft_image>;
   @Input() currentImageIndex: number;
   @Input() options: any;
   @Input() params: any;
@@ -37,7 +39,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
   @ViewChild('container', { static: false }) _containerElem: ElementRef;
   @ViewChild('leftArrow', { static: false }) _leftArrowElem: ElementRef;
   @ViewChild('rightArrow', { static: false }) _rightArrowElem: ElementRef;
-  @ViewChild('navArrow', { static: false }) _navArrowElem: ElementRef;
+  // @ViewChild('navArrow', { static: false }) _navArrowElem: ElementRef;
   @ViewChild('dataContainer', { static: false }) _dataContainerElem: ElementRef;
   @ViewChild('image', { static: false }) _imageElem: ElementRef;
   // @ViewChild('caption', { static: false }) _captionElem: ElementRef;
@@ -54,13 +56,16 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
     private _lightboxEvent: LightboxEvent,
     public _lightboxElem: ElementRef,
     private _lightboxWindowRef: LightboxWindowRef,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    private imagesService: ImagesService
   ) {
     // initialize data
     this.options = this.options || {};
     this.params = this.params || {};
 
     this.album = this.album || [];
+    console.log("?>>>>>>>>>>>", this.album);
+
     this.currentImageIndex = this.currentImageIndex || 0;
     this._windowRef = this._lightboxWindowRef.nativeWindow;
 
@@ -97,11 +102,11 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
   }
 
   ngOnInit(): void {
-    this.album.forEach(album => {
-      if (album.caption) {
-        album.caption = this._sanitizer.sanitize(SecurityContext.HTML, album.caption);
-      }
-    });
+    // this.album.forEach(album => {
+    //   if (album.caption) {
+    //     album.caption = this._sanitizer.sanitize(SecurityContext.HTML, album.caption);
+    //   }
+    // });
   }
 
   public ngAfterViewInit(): void {
@@ -134,13 +139,10 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
   }
 
   public close($event: any): void {
-    console.log("$event.target.classList:", $event.target.classList);
-
     $event.stopPropagation();
     if ($event.target.classList.contains('lightbox') ||
       $event.target.classList.contains('lb-loader') ||
       $event.target.classList.contains('lb-close')) {
-      alert(">>>>>>>")
       this._lightboxEvent.broadcastLightboxEvent({ id: LIGHTBOX_EVENT.CLOSE, data: null });
     }
   }
@@ -178,7 +180,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
       for (let i = 0; i < this.album.length; i++) {
         // check whether each _nside
         // album has src data or not
-        if (this.album[i].src) {
+        if (this.album[i].url) {
           continue;
         }
 
@@ -206,7 +208,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
       this._onLoadImageSuccess();
     }
 
-    const src: any = this.album[this.currentImageIndex].src;
+    const src: any = this.album[this.currentImageIndex].url;
     preloader.src = this._sanitizer.sanitize(SecurityContext.URL, src);
   }
 
@@ -373,7 +375,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
     this._rendererRef.setStyle(this._dataContainerElem.nativeElement,
       '-webkit-animation-duration', `${fadeDuration}s`);
     this._rendererRef.setStyle(this._dataContainerElem.nativeElement,
-    'animation-duration', `${fadeDuration}s`);
+      'animation-duration', `${fadeDuration}s`);
     this._rendererRef.setStyle(this._imageElem.nativeElement,
       '-webkit-animation-duration', `${fadeDuration}s`);
     this._rendererRef.setStyle(this._imageElem.nativeElement,
@@ -400,10 +402,10 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
 
   private _updateDetails(): void {
     // update the caption
-    if (typeof this.album[this.currentImageIndex].caption !== 'undefined' &&
-      this.album[this.currentImageIndex].caption !== '') {
-      this.ui.showCaption = true;
-    }
+    // if (typeof this.album[this.currentImageIndex].caption !== 'undefined' &&
+    //   this.album[this.currentImageIndex].caption !== '') {
+    //   this.ui.showCaption = true;
+    // }
 
     // update the page number if user choose to do so
     // does not perform numbering the page if the
@@ -544,5 +546,9 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
       default:
         break;
     }
+  }
+
+  onClickFootprint() {
+    this.imagesService.doLikeImage(this.album[this.currentImageIndex])
   }
 }
