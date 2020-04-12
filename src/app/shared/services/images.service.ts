@@ -17,7 +17,7 @@ export class ImagesService {
   }
   // getImages
   getImages() {
-    return this.firestore.collection(this.collectionName).get();
+    return this.firestore.collection(this.collectionName).ref.limit(10).orderBy('timestamp', 'desc').get();
     // .snapshotChanges();
   }
 
@@ -41,21 +41,23 @@ export class ImagesService {
   }
 
   doLikeImage(image: Ft_image) {
-    let ipAddress = localStorage.getItem('fp_currentid');
-    if (!ipAddress) return;
-    let findex = image.ips.findIndex(x => { return x === ipAddress });
-    if (findex > -1) {
-      image.ips.splice(findex, 1);
-      image.likes--;
-    } else {
-      image.ips.push(ipAddress)
-      image.likes++;
-    }
+    // let ipAddress = localStorage.getItem('fp_currentid');
+    // if (!ipAddress) return;
+    // let findex = image.ips.findIndex(x => { return x === ipAddress });
+    // if (findex > -1) {
+    //   image.ips.splice(findex, 1);
+    //   image.likes--;
+    // } else {
+    //   image.ips.push(ipAddress)
+    //   image.likes++;
+    // }
     this.firestore.doc(this.collectionName + '/' + image.id).set({
       ips: image.ips,
       likes: image.likes,
       url: image.url,
-      isShow: image.isShow
+      isShow: image.isShow,
+      essence: image.essence,
+      footprint: image.footprint
     });
   }
 

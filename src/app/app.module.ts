@@ -20,6 +20,12 @@ import { HttpClientModule } from "@angular/common/http";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import {
+  AngularFireStorageModule,
+  AngularFireStorageReference,
+  AngularFireUploadTask,
+  StorageBucket
+} from "@angular/fire/storage";
 import { environment } from '../environments/environment';
 
 // Auth service
@@ -37,6 +43,9 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { PipesModule } from './shared/pipes/pipes.module';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
+ 
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +54,8 @@ import { PipesModule } from './shared/pipes/pipes.module';
     DashboardComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    MasonryImagesComponent
+    MasonryImagesComponent,
+    ImageUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +63,8 @@ import { PipesModule } from './shared/pipes/pipes.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
+
     ReactiveFormsModule,
     NgxMasonryModule,
     LightboxModule,
@@ -61,9 +73,12 @@ import { PipesModule } from './shared/pipes/pipes.module';
     DeviceDetectorModule.forRoot(),
     InfiniteScrollModule,
     HttpClientModule,
-    PipesModule
+    PipesModule,
+    ToastrModule.forRoot()
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

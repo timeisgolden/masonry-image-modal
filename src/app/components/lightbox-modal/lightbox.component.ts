@@ -549,6 +549,18 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
   }
 
   onClickFootprint() {
+    let ipAddress = localStorage.getItem('fp_currentid');
+    if (!ipAddress) return;
+    let findex = this.album[this.currentImageIndex].ips.findIndex(x => { return x === ipAddress });
+    if (findex > -1) {
+      this.album[this.currentImageIndex].ips.splice(findex, 1);
+      this.album[this.currentImageIndex].likes--;
+    } else {
+      this.album[this.currentImageIndex].ips.push(ipAddress)
+      this.album[this.currentImageIndex].likes++;
+    }
+    let nfootprintedIndex = this.album[this.currentImageIndex].ips.findIndex(x => { return x === ipAddress });
+    this.album[this.currentImageIndex].footPrinted = nfootprintedIndex > -1 ? true : false;
     this.imagesService.doLikeImage(this.album[this.currentImageIndex])
   }
 }

@@ -42,16 +42,17 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
       .subscribe(snapshotChanges => {
         // console.log("changed snapshot:", snapshotChanges);
         snapshotChanges.forEach(snapshotChange => {
+          console.log("snashotChange:", snapshotChange.type);
+          
           if (snapshotChange.type === 'modified') {
             let nindex = this._albums.findIndex(album => { return album.id === snapshotChange.payload.doc.id });
-
             let ips: any[] = snapshotChange.payload.doc.data().ips ? snapshotChange.payload.doc.data().ips : [];
             let nfootprintedIndex = ips.findIndex(x => { return x === this.ipAddress });
-
             this._albums[nindex].likes = snapshotChange.payload.doc.data().likes ? snapshotChange.payload.doc.data().likes : 0
+            this._albums[nindex].essence = snapshotChange.payload.doc.data().essence ? snapshotChange.payload.doc.data().essence : ''
+            this._albums[nindex].footprint = snapshotChange.payload.doc.data().footprint ? snapshotChange.payload.doc.data().footprint : ''
             this._albums[nindex].ips = ips;
             this._albums[nindex].footPrinted = nfootprintedIndex > -1 ? true : false;
-            console.log("changed snapshot:", this._albums[nindex]);
           }
         })
       })
@@ -63,9 +64,10 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
       this._isMobile = false;
     }
 
+    // this.imagesService.getImages()
+    //   .pipe(takeUntil(this._unsubscribeAll))
     this.imagesService.getImages()
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(data => {
+      .then(data => {
         this._albums = [];
         let images: any[] = []
         data.docChanges().forEach(docData => {
@@ -74,6 +76,8 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
             data: docData.doc.data()
           })
         });
+        console.log(">>>>>>>>>>", images);
+        
         for (let index = 0; index < images.length; index++) {
           const image: any = images[index];
           let ips: any[] = image.data.ips ? image.data.ips : [];
@@ -84,6 +88,8 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
               url: image.data.url,
               ips: image.data.ips ? image.data.ips : [],
               likes: image.data.likes ? image.data.likes : 0,
+              essence: image.data.essence ? image.data.essence : '',
+              footprint: image.data.footprint ? image.data.footprint : '',
               isShow: false,
               footPrinted: nfootprintedIndex === -1 ? false : true
             }
@@ -146,6 +152,18 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
   // }
 
   onClickFootprint(album) {
+    if (!this.ipAddress) return;
+    let findex = album.ips.findIndex(x => { return x === this.ipAddress });
+    if (findex > -1) {
+      album.ips.splice(findex, 1);
+      album.likes--;
+    } else {
+      album.ips.push(this.ipAddress)
+      album.likes++;
+    }
+    let nfootprintedIndex = album.ips.findIndex(x => { return x === this.ipAddress });
+    album.footPrinted = nfootprintedIndex > -1 ? true : false;
+
     this.imagesService.doLikeImage(album)
   }
 }

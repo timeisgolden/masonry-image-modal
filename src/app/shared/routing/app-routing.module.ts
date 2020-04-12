@@ -12,6 +12,7 @@ import { VerifyEmailComponent } from '../../components/verify-email/verify-email
 import { AuthGuard } from "../../shared/guard/auth.guard";
 import { SecureInnerPagesGuard } from "../../shared/guard/secure-inner-pages.guard";
 import { MasonryImagesComponent } from 'src/app/components/masonry-images/masonry-images.component';
+import { ImageUploadComponent } from 'src/app/components/image-upload/image-upload.component';
 
 // Include route guard in routes array
 const routes: Routes = [
@@ -21,7 +22,8 @@ const routes: Routes = [
   // { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   // { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [SecureInnerPagesGuard] },
   // { path: 'verify-email-address', component: VerifyEmailComponent, canActivate: [SecureInnerPagesGuard] },
-  { path: 'masonry-images', component: MasonryImagesComponent }
+  { path: 'masonry-images', component: MasonryImagesComponent },
+  { path: 'image-upload', component: ImageUploadComponent }
 ];
 
 @NgModule({

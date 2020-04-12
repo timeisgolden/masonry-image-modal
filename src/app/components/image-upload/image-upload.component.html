@@ -1,0 +1,35 @@
+<mat-toolbar color="primary">
+    <span class="fill-remaining-space">File Upload</span>
+</mat-toolbar>
+
+
+<div class="container" novalidate>
+    <form class="form" [formGroup]="photoForm" (ngSubmit)="onSubmitPhotoForm()">
+
+        <input id="file_input" type="file" (change)="fileChangeEvent($event)" accept="image/png, image/jpeg">
+        <div>
+            <img [src]="photoForm.controls['url'].value" height="200" *ngIf="photoForm.controls['url'].value">
+
+            <mat-progress-bar mode="indeterminate" *ngIf="isUploading"></mat-progress-bar>
+        </div>
+
+        <mat-form-field class="form-element">
+            <textarea matInput placeholder="Essence" formControlName="essence"></textarea>
+            <mat-error *ngIf="!photoForm.controls['essence'].valid && photoForm.controls['essence'].touched">
+                Essece is required!
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-element">
+            <textarea matInput placeholder="Footprint" formControlName="footprint"></textarea>
+            <mat-error *ngIf="!photoForm.controls['footprint'].valid && photoForm.controls['footprint'].touched">
+                footprint is required!
+            </mat-error>
+        </mat-form-field>
+
+        <div class="form-element">
+            <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!photoForm.valid">
+                Upload Image
+            </button>
+        </div>
+    </form>
+</div>

@@ -16,28 +16,24 @@
                 </div>
             </div>
             <div *ngIf="_isMobile && picture.isShow" class="masonry-content">
-                <div class="lb-likeContainer">
-                    <img *ngIf="!picture.footPrinted" class="lb-footprintImage" src="assets/images/footprint.png"
-                        (click)="onClickFootprint(picture)">
+                <div class="lb-likeContainer" (click)="onClickFootprint(picture)">
+                    <img *ngIf="!picture.footPrinted" class="lb-footprintImage" src="assets/images/footprint.png">
                     <img *ngIf="picture.footPrinted" class="lb-footprintImage"
-                        src="assets/images/footprint_selected.png" (click)="onClickFootprint(picture)">
+                        src="assets/images/footprint_selected.png">
+
                     <p class="lb-like" [ngClass]="{'footprinted': picture.footPrinted}">{{picture.likes | countAbtract}}
                     </p>
                 </div>
                 <div class="lb-essenceContainer">
                     <p class="lb-title">Rueben's Essence:</p>
                     <p class="lb-description">
-                        Lorem ipsum dolor sit amet, consectetur adpiscing elit, sed do Lorem ipsum dolor sit amet,
-                        consectetur
-                        adpiscing elit, sed do
+                        {{picture.essence}}
                     </p>
                 </div>
                 <div class="lb-footprintContainer">
                     <p class="lb-title">Rueben's Footprint:</p>
                     <p class="lb-description">
-                        Lorem ipsum dolor sit amet, consectetur adpiscing elit, sed do Lorem ipsum dolor sit amet,
-                        consectetur
-                        adpiscing elit, sed do
+                        {{picture.footprint}}
                     </p>
                 </div>
             </div>
