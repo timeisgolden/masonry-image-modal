@@ -8,6 +8,12 @@ import { Observable } from 'rxjs';
 export class ImagesService {
   // collectionName: string = 'tempimages'
   collectionName: string = 'images'
+  //Save first document in snapshot of items received
+  firstInResponse: any = [];
+
+  //Save last document in snapshot of items received
+  lastInResponse: any = [];
+
   constructor(private firestore: AngularFirestore) {
 
   }
@@ -17,8 +23,15 @@ export class ImagesService {
   }
   // getImages
   getImages() {
-    return this.firestore.collection(this.collectionName).ref.limit(10).orderBy('timestamp', 'desc').get();
-    // .snapshotChanges();
+    return this.firestore.collection(this.collectionName).ref.limit(15).orderBy('timestamp', 'desc').get();
+  }
+  // getImages
+  getNextImages(lastInResponse) {
+    return this.firestore.collection(this.collectionName).ref
+      .limit(15)
+      .orderBy('timestamp', 'desc')
+      .startAfter(lastInResponse)
+      .get();
   }
 
   createImage(image: Ft_image) {
@@ -57,7 +70,8 @@ export class ImagesService {
       url: image.url,
       isShow: image.isShow,
       essence: image.essence,
-      footprint: image.footprint
+      footprint: image.footprint,
+      timestamp: image.timestamp
     });
   }
 

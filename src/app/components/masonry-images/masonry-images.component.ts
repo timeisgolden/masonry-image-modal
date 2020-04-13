@@ -6,6 +6,7 @@ import { ImagesService } from 'src/app/shared/services/images.service';
 import { Ft_image } from 'src/app/shared/models.model';
 import { from, of, Subject } from 'rxjs';
 import { takeUntil, mergeMap } from 'rxjs/operators';
+import { QuerySnapshot, DocumentData } from '@angular/fire/firestore';
 
 // import { Lightbox } from '../lightbox-modal';
 
@@ -17,7 +18,6 @@ import { takeUntil, mergeMap } from 'rxjs/operators';
 export class MasonryImagesComponent implements OnInit, OnDestroy {
   _initload: boolean = true;
   @ViewChild('tabsContentRef', { static: true }) tabsContentRef: ElementRef;
-  // @ViewChild("tabsContentRef") tabsContentRef: ElementRef;
   public masonryOptions: NgxMasonryOptions = {
     transitionDuration: '0.2s',
     gutter: 20,
@@ -32,6 +32,11 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
   _isMobile: boolean = false;
   ipAddress: any;
 
+  //Save first document in snapshot of items received
+  firstInResponse: any = [];
+  //Save last document in snapshot of items received
+  lastInResponse: any = [];
+
   private _unsubscribeAll: Subject<any> = new Subject();;
   constructor(
     private _lightbox: Lightbox, public deviceService: DeviceDetectorService, private imagesService: ImagesService
@@ -43,7 +48,7 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
         // console.log("changed snapshot:", snapshotChanges);
         snapshotChanges.forEach(snapshotChange => {
           console.log("snashotChange:", snapshotChange.type);
-          
+
           if (snapshotChange.type === 'modified') {
             let nindex = this._albums.findIndex(album => { return album.id === snapshotChange.payload.doc.id });
             let ips: any[] = snapshotChange.payload.doc.data().ips ? snapshotChange.payload.doc.data().ips : [];
@@ -66,65 +71,68 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
 
     // this.imagesService.getImages()
     //   .pipe(takeUntil(this._unsubscribeAll))
-    this.imagesService.getImages()
-      .then(data => {
-        this._albums = [];
-        let images: any[] = []
-        data.docChanges().forEach(docData => {
-          images.push({
-            id: docData.doc.id,
-            data: docData.doc.data()
-          })
-        });
-        console.log(">>>>>>>>>>", images);
-        
-        for (let index = 0; index < images.length; index++) {
-          const image: any = images[index];
-          let ips: any[] = image.data.ips ? image.data.ips : [];
-          let nfootprintedIndex = ips.findIndex(x => { return x === this.ipAddress });
-          this._albums.push(
-            {
-              id: image.id,
-              url: image.data.url,
-              ips: image.data.ips ? image.data.ips : [],
-              likes: image.data.likes ? image.data.likes : 0,
-              essence: image.data.essence ? image.data.essence : '',
-              footprint: image.data.footprint ? image.data.footprint : '',
-              isShow: false,
-              footPrinted: nfootprintedIndex === -1 ? false : true
-            }
-          )
-        }
-        this.masonryImages = this._albums.slice(0, this.limit);
-        console.log("this.albums:", this._albums);
-
-        // from(this._albums)
-        //   .pipe(
-        //     mergeMap(album => this.getLike(album))
-        //   )
-        //   .subscribe(like => {
-        //     like.playerObs.subscribe(detail => {
-        //       let data = detail.data();
-        //       this._albums[like.nIndex]['like'] = data.count;
-        //     })
-        //   });
+    this.imagesService.getImages().then(data => {
+      this._albums = [];
+      this.firstInResponse = data.docChanges()[0].doc;
+      this.lastInResponse = data.docChanges()[data.docChanges().length - 1].doc;
+      this.convertDocsToArray(data);
 
 
-      });
+      // from(this._albums)
+      //   .pipe(
+      //     mergeMap(album => this.getLike(album))
+      //   )
+      //   .subscribe(like => {
+      //     like.playerObs.subscribe(detail => {
+      //       let data = detail.data();
+      //       this._albums[like.nIndex]['like'] = data.count;
+      //     })
+      //   });
+
+
+    });
     this.gotoTop();
   }
-
   ngOnDestroy() {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+  }
+
+  convertDocsToArray(data: QuerySnapshot<DocumentData>) {
+    data.docChanges().forEach(docData => {
+      const image: any = docData.doc.data();
+      let ips: any[] = image.ips ? image.ips : [];
+      let nfootprintedIndex = ips.findIndex(x => { return x === this.ipAddress });
+      this._albums.push(
+        {
+          id: docData.doc.id,
+          url: image.url,
+          ips: image.ips ? image.ips : [],
+          likes: image.likes ? image.likes : 0,
+          essence: image.essence ? image.essence : '',
+          footprint: image.footprint ? image.footprint : '',
+          timestamp: image.timestamp,
+          isShow: false,
+          footPrinted: nfootprintedIndex === -1 ? false : true
+        }
+      )
+    });
   }
 
   gotoTop() {
     this.tabsContentRef.nativeElement.scrollTo(0, 0);
   }
   showMoreImages() {
-    this.limit += 15;
-    this.masonryImages = this._albums.slice(0, this.limit);
+    this.imagesService.getNextImages(this.lastInResponse).then(data => {
+      console.log(">>>>>>>>>>>>>>next data;");      
+      if (!data.docChanges().length) {
+        return;
+      }
+      this.firstInResponse = data.docChanges()[0].doc;
+      this.lastInResponse = data.docChanges()[data.docChanges().length - 1].doc;
+      this.convertDocsToArray(data);
+      console.log("this._albums:", this._albums);
+    })
   }
   open(index: number): void {
     if (this._isMobile) {
@@ -137,11 +145,7 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
   }
   onScroll() {
     console.log('scrolled!!');
-    // if (!this._initload) {
     this.showMoreImages();
-    // } else {
-    //   this._initload = !this._initload;
-    // }
   }
 
   // getLike = (album) => {
