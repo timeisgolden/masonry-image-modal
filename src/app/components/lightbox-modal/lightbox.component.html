@@ -17,10 +17,10 @@
   <div class="lb-dataContainer" [hidden]="ui.showReloader" #dataContainer>
     <div class="lb-data">
       <div class="lb-likeContainer">
-        <img [hidden]="album[currentImageIndex].footPrinted" class="lb-footprintImage" src="assets/images/footprint.png"
+        <img [hidden]="album[currentImageIndex].footPrinted" class="lb-footprintImage" src="assets/images/footprint.svg"
           alt="footprint" (click)="onClickFootprint()">
         <img [hidden]="!album[currentImageIndex].footPrinted" class="lb-footprintImage"
-          src="assets/images/footprint_selected.png" alt="footprint" (click)="onClickFootprint()">
+          src="assets/images/footprint_selected.svg" alt="footprint" (click)="onClickFootprint()">
 
         <p [hidden]="album[currentImageIndex].footPrinted" class="lb-like">
           {{album[currentImageIndex].likes  | countAbtract}}

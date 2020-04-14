@@ -6,10 +6,10 @@
             <img src="{{picture.url}}" (click)="open(i)">
             <div *ngIf="!_isMobile" class="overlayed-tap" (click)="open(i)">
                 <div class="viewed-users">
-                    <img *ngIf="!picture.footPrinted" class="lb-footprintImage" src="assets/images/footprint.png"
+                    <img *ngIf="!picture.footPrinted" class="lb-footprintImage" src="assets/images/footprint.svg"
                         alt="footprint">
                     <img *ngIf="picture.footPrinted" class="lb-footprintImage"
-                        src="assets/images/footprint_selected.png" alt="footprint">
+                        src="assets/images/footprint_selected.svg" alt="footprint">
                     <div class="message-text" [ngClass]="{'footprinted': picture.footPrinted}">
                         {{picture.likes | countAbtract}}
                     </div>
@@ -17,9 +17,9 @@
             </div>
             <div *ngIf="_isMobile && picture.isShow" class="masonry-content">
                 <div class="lb-likeContainer" (click)="onClickFootprint(picture)">
-                    <img *ngIf="!picture.footPrinted" class="lb-footprintImage" src="assets/images/footprint.png">
+                    <img *ngIf="!picture.footPrinted" class="lb-footprintImage" src="assets/images/footprint.svg">
                     <img *ngIf="picture.footPrinted" class="lb-footprintImage"
-                        src="assets/images/footprint_selected.png">
+                        src="assets/images/footprint_selected.svg">
 
                     <p class="lb-like" [ngClass]="{'footprinted': picture.footPrinted}">{{picture.likes | countAbtract}}
                     </p>
