@@ -32,6 +32,7 @@ export class ImageUploadComponent implements OnInit {
   ngOnInit() {
     this.photoForm = this._formBuilder.group({
       'url': [null, Validators.required],
+      'poster': ['', Validators.required],
       'essence': ['', Validators.required],
       'footprint': ['', Validators.required]
     });
@@ -69,6 +70,7 @@ export class ImageUploadComponent implements OnInit {
           url: this.url,
           ips: [],
           likes: 0,
+          poster: this.photoForm.controls['poster'].value,
           essence: this.photoForm.controls['essence'].value,
           footprint: this.photoForm.controls['footprint'].value,
           timestamp: new Date().getTime()

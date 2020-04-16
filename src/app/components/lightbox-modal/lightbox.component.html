@@ -17,55 +17,26 @@
   <div class="lb-dataContainer" [hidden]="ui.showReloader" #dataContainer>
     <div class="lb-data">
       <div class="lb-likeContainer">
-        <img [hidden]="album[currentImageIndex].footPrinted" class="lb-footprintImage" src="assets/images/footprint.svg"
-          alt="footprint" (click)="onClickFootprint()">
-        <img [hidden]="!album[currentImageIndex].footPrinted" class="lb-footprintImage"
-          src="assets/images/footprint_selected.svg" alt="footprint" (click)="onClickFootprint()">
-
-        <p [hidden]="album[currentImageIndex].footPrinted" class="lb-like">
-          {{album[currentImageIndex].likes  | countAbtract}}
-        </p>
-        <p [hidden]="!album[currentImageIndex].footPrinted" class="lb-like footprinted">
+        <img class="lb-footprintImage" (click)="onClickFootprint()"
+          src="assets/images/footprint{{album[currentImageIndex].footPrinted ? '_selected' : ''}}.svg">
+        <p class="lb-like" [ngClass]="{'footprinted': album[currentImageIndex].footPrinted}">
           {{album[currentImageIndex].likes  | countAbtract}}
         </p>
       </div>
       <div class="lb-essenceContainer">
-        <p class="lb-title">Rueben's Essence:</p>
+        <p class="lb-title">{{album[currentImageIndex].poster}}'s Essence:</p>
         <p class="lb-description">
           {{album[currentImageIndex].essence}}
         </p>
       </div>
       <div class="lb-footprintContainer">
-        <p class="lb-title">Rueben's Footprint:</p>
+        <p class="lb-title">{{album[currentImageIndex].poster}}'s Footprint:</p>
         <p class="lb-description">
           {{album[currentImageIndex].footprint}}
         </p>
       </div>
-
-
-      <!-- <div class="lb-details">
-        <div class="overlayed-tap" #caption>
-          <div class="viewed-users">
-            <mat-icon>favorite_border</mat-icon>
-            <div class="message-text">
-              {{album[currentImageIndex].like}}
-            </div>
-          </div>
-          <div class="viewed-users">
-            <mat-icon>chat_bubble_outline</mat-icon>
-            <div class="message-text">
-              {{album[currentImageIndex].messages}}
-            </div>
-          </div>
-        </div>
-        <div class="lb-imgLoation">
-          <span class="lb-number animation fadeIn" [hidden]="!ui.showPageNumber" #number>{{ content.pageNumber }}</span>
-        </div>
-      </div> -->
     </div>
   </div>
 </div>
 <a class="lb-prev" [hidden]="!ui.showLeftArrow" (click)="prevImage()" #leftArrow></a>
 <a class="lb-next" [hidden]="!ui.showRightArrow" (click)="nextImage()" #rightArrow></a>
-<!-- <div class="lb-nav" [hidden]="!ui.showArrowNav" #navArrow>
-</div> -->

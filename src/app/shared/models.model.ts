@@ -3,8 +3,9 @@ export class Ft_image {
     url: string;
     ips?: string[];
     likes?: number;
-    essence?: string;
-    footprint?: string;
+    poster: string;
+    essence: string;
+    footprint: string;
     timestamp?: number;
     isShow?: boolean;
     nindex?: number;

@@ -64,7 +64,6 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
     this.params = this.params || {};
 
     this.album = this.album || [];
-    console.log("?>>>>>>>>>>>", this.album);
 
     this.currentImageIndex = this.currentImageIndex || 0;
     this._windowRef = this._lightboxWindowRef.nativeWindow;
@@ -102,6 +101,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
   }
 
   ngOnInit(): void {
+    // console.log("ngOnInit?>>>>>>>>>>>", this.album);
     // this.album.forEach(album => {
     //   if (album.caption) {
     //     album.caption = this._sanitizer.sanitize(SecurityContext.HTML, album.caption);
@@ -550,17 +550,19 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
 
   onClickFootprint() {
     let ipAddress = localStorage.getItem('fp_currentid');
+    console.log(">>>>>>>>>ipAddresS:", ipAddress);
+
     if (!ipAddress) return;
     let findex = this.album[this.currentImageIndex].ips.findIndex(x => { return x === ipAddress });
     if (findex > -1) {
       this.album[this.currentImageIndex].ips.splice(findex, 1);
       this.album[this.currentImageIndex].likes--;
+      this.album[this.currentImageIndex].footPrinted = true;
     } else {
       this.album[this.currentImageIndex].ips.push(ipAddress)
       this.album[this.currentImageIndex].likes++;
+      this.album[this.currentImageIndex].footPrinted = false;
     }
-    let nfootprintedIndex = this.album[this.currentImageIndex].ips.findIndex(x => { return x === ipAddress });
-    this.album[this.currentImageIndex].footPrinted = nfootprintedIndex > -1 ? true : false;
     this.imagesService.doLikeImage(this.album[this.currentImageIndex])
   }
 }

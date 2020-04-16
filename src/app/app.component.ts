@@ -10,17 +10,15 @@ export class AppComponent implements OnInit {
   title = 'angularfirebase-authentication';
   ipAddress: string;
   constructor(private ip: IpDetectService) {
-
+    this.getIP();
   }
 
   ngOnInit() {
-    this.getIP();
   }
   getIP() {
     this.ip.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
       localStorage.setItem('fp_currentid', this.ipAddress);
-      console.log("my ipaddress:", this.ipAddress);
     });
   }
 }

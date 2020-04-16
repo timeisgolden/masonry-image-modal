@@ -7,6 +7,7 @@ import { Ft_image } from 'src/app/shared/models.model';
 import { from, of, Subject } from 'rxjs';
 import { takeUntil, mergeMap } from 'rxjs/operators';
 import { QuerySnapshot, DocumentData } from '@angular/fire/firestore';
+import { IpDetectService } from 'src/app/shared/services/ip-detect.service';
 
 // import { Lightbox } from '../lightbox-modal';
 
@@ -39,20 +40,22 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
 
   private _unsubscribeAll: Subject<any> = new Subject();;
   constructor(
-    private _lightbox: Lightbox, public deviceService: DeviceDetectorService, private imagesService: ImagesService
+    private _lightbox: Lightbox, public deviceService: DeviceDetectorService, private imagesService: ImagesService,
+    private ip: IpDetectService
   ) {
     this.ipAddress = localStorage.getItem('fp_currentid');
+
+  }
+  ngOnInit() {
     this.imagesService.getImageChanges()
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(snapshotChanges => {
-        // console.log("changed snapshot:", snapshotChanges);
+        this.ipAddress = localStorage.getItem('fp_currentid');
         snapshotChanges.forEach(snapshotChange => {
-          console.log("snashotChange:", snapshotChange.type);
-
           if (snapshotChange.type === 'modified') {
             let nindex = this._albums.findIndex(album => { return album.id === snapshotChange.payload.doc.id });
             let ips: any[] = snapshotChange.payload.doc.data().ips ? snapshotChange.payload.doc.data().ips : [];
-            let nfootprintedIndex = ips.findIndex(x => { return x === this.ipAddress });
+            let nfootprintedIndex = ips.findIndex(x => { return x == this.ipAddress });
             this._albums[nindex].likes = snapshotChange.payload.doc.data().likes ? snapshotChange.payload.doc.data().likes : 0
             this._albums[nindex].essence = snapshotChange.payload.doc.data().essence ? snapshotChange.payload.doc.data().essence : ''
             this._albums[nindex].footprint = snapshotChange.payload.doc.data().footprint ? snapshotChange.payload.doc.data().footprint : ''
@@ -61,35 +64,17 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
           }
         })
       })
-  }
-  ngOnInit() {
+
     if (this.deviceService.isMobile() || this.deviceService.isTablet()) {
       this._isMobile = true;
     } else {
       this._isMobile = false;
     }
-
-    // this.imagesService.getImages()
-    //   .pipe(takeUntil(this._unsubscribeAll))
     this.imagesService.getImages().then(data => {
       this._albums = [];
       this.firstInResponse = data.docChanges()[0].doc;
       this.lastInResponse = data.docChanges()[data.docChanges().length - 1].doc;
       this.convertDocsToArray(data);
-
-
-      // from(this._albums)
-      //   .pipe(
-      //     mergeMap(album => this.getLike(album))
-      //   )
-      //   .subscribe(like => {
-      //     like.playerObs.subscribe(detail => {
-      //       let data = detail.data();
-      //       this._albums[like.nIndex]['like'] = data.count;
-      //     })
-      //   });
-
-
     });
     this.gotoTop();
   }
@@ -99,24 +84,51 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
   }
 
   convertDocsToArray(data: QuerySnapshot<DocumentData>) {
-    data.docChanges().forEach(docData => {
-      const image: any = docData.doc.data();
-      let ips: any[] = image.ips ? image.ips : [];
-      let nfootprintedIndex = ips.findIndex(x => { return x === this.ipAddress });
-      this._albums.push(
-        {
-          id: docData.doc.id,
-          url: image.url,
-          ips: image.ips ? image.ips : [],
-          likes: image.likes ? image.likes : 0,
-          essence: image.essence ? image.essence : '',
-          footprint: image.footprint ? image.footprint : '',
-          timestamp: image.timestamp,
-          isShow: false,
-          footPrinted: nfootprintedIndex === -1 ? false : true
-        }
-      )
-    });
+    if (!this.ipAddress || this.ipAddress === 'null') {
+      this.ip.getIPAddress().subscribe((res: any) => {
+        this.ipAddress = res.ip;
+        localStorage.setItem('fp_currentid', this.ipAddress);
+        data.docChanges().forEach(docData => {
+          const image: any = docData.doc.data();
+          let ips: any[] = image.ips ? image.ips : [];
+          let nfootprintedIndex = ips.findIndex(x => { return x === this.ipAddress });
+          this._albums.push(
+            {
+              id: docData.doc.id,
+              url: image.url,
+              ips: image.ips ? image.ips : [],
+              likes: image.likes ? image.likes : 0,
+              poster: image.poster ? image.poster : 'Unknown',
+              essence: image.essence ? image.essence : '',
+              footprint: image.footprint ? image.footprint : '',
+              timestamp: image.timestamp,
+              isShow: false,
+              footPrinted: nfootprintedIndex === -1 ? false : true
+            }
+          )
+        });
+      });
+    } else {
+      data.docChanges().forEach(docData => {
+        const image: any = docData.doc.data();
+        let ips: any[] = image.ips ? image.ips : [];
+        let nfootprintedIndex = ips.findIndex(x => { return x === this.ipAddress });
+        this._albums.push(
+          {
+            id: docData.doc.id,
+            url: image.url,
+            ips: image.ips ? image.ips : [],
+            likes: image.likes ? image.likes : 0,
+            poster: image.poster ? image.poster : 'Unknown',
+            essence: image.essence ? image.essence : '',
+            footprint: image.footprint ? image.footprint : '',
+            timestamp: image.timestamp,
+            isShow: false,
+            footPrinted: nfootprintedIndex === -1 ? false : true
+          }
+        )
+      });
+    }
   }
 
   gotoTop() {
@@ -124,7 +136,7 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
   }
   showMoreImages() {
     this.imagesService.getNextImages(this.lastInResponse).then(data => {
-      console.log(">>>>>>>>>>>>>>next data;");      
+      console.log(">>>>>>>>>>>>>>next data;");
       if (!data.docChanges().length) {
         return;
       }

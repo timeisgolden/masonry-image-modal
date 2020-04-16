@@ -9,10 +9,10 @@ import { AngularFireStorage } from '@angular/fire/storage';
 export class FileUploadService {
   // imageDetailList: AngularFireList<any>;
   fileList: any[];
-  dataSet: Ft_image = {
-    id: '',
-    url: ''
-  };
+  // dataSet: Ft_image = {
+  //   id: '',
+  //   url: ''
+  // };
   msg: string = 'error';
 
   constructor(private storage: AngularFireStorage, private firestore: AngularFirestore) { }

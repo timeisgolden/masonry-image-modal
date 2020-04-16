@@ -6,12 +6,14 @@ import { LightboxOverlayComponent } from './lightbox-overlay.component';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [LightboxOverlayComponent, LightboxComponent],
   imports: [
     MatIconModule,
-    PipesModule
+    PipesModule,
+    CommonModule
   ],
   providers: [
     Lightbox,

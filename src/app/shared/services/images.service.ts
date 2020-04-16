@@ -23,12 +23,12 @@ export class ImagesService {
   }
   // getImages
   getImages() {
-    return this.firestore.collection(this.collectionName).ref.limit(15).orderBy('timestamp', 'desc').get();
+    return this.firestore.collection(this.collectionName).ref.limit(20).orderBy('timestamp', 'desc').get();
   }
   // getImages
   getNextImages(lastInResponse) {
     return this.firestore.collection(this.collectionName).ref
-      .limit(15)
+      .limit(20)
       .orderBy('timestamp', 'desc')
       .startAfter(lastInResponse)
       .get();
@@ -69,6 +69,7 @@ export class ImagesService {
       likes: image.likes,
       url: image.url,
       isShow: image.isShow,
+      poster: image.poster,
       essence: image.essence,
       footprint: image.footprint,
       timestamp: image.timestamp
