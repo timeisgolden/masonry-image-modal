@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { FileUploadService } from 'src/app/shared/services/file-upload.service';
 import { finalize } from 'rxjs/operators';
 import { ImagesService } from 'src/app/shared/services/images.service';
 import { Ft_image } from 'src/app/shared/models.model';
@@ -50,7 +49,6 @@ export class ImageUploadComponent implements OnInit {
 
   onSubmitPhotoForm() {
     this.isUploading = true;
-    // console.log(this.selectedImage);
     const id = 'pic' + Math.floor(Math.random() * 1000000);
     // storage path
     const path = 'images/' + id;
@@ -74,20 +72,13 @@ export class ImageUploadComponent implements OnInit {
           essence: this.photoForm.controls['essence'].value,
           footprint: this.photoForm.controls['footprint'].value,
           timestamp: new Date().getTime()
-        }
-        // console.log("newImage:", newImage);
-        
+        }        
         this.imageService.createImage(newImage).then(res => {
           this.isUploading = false;
           this.photoForm.reset();
           this.toastr.success('uploaded successfully', 'Image Upload');
         });
       })
-    ).subscribe(snapshot => {
-      // console.log(">>>>>>>", snapshot);
-    })
-  }
-  view() {
-    // this.fileService.getImage(this.file);
+    );
   }
 }

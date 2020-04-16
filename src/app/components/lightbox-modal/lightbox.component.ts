@@ -549,7 +549,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
   }
 
   onClickFootprint() {
-    let ipAddress = localStorage.getItem('fp_currentid');
+    let ipAddress = localStorage.getItem('fp_myip');
     // console.log(">>>>>>>>>ipAddresS:", ipAddress);
 
     if (!ipAddress) return;

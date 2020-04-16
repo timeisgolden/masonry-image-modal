@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   getIP() {
     this.ip.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
-      localStorage.setItem('fp_currentid', this.ipAddress);
+      localStorage.setItem('fp_myip', this.ipAddress);
     });
   }
 }
