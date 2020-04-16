@@ -147,7 +147,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
     }
   }
   public closeDialog($event: any): void {
-    console.log("$event.target.classList:", $event.target.classList);
+    // console.log("$event.target.classList:", $event.target.classList);
 
     $event.stopPropagation();
     this._lightboxEvent.broadcastLightboxEvent({ id: LIGHTBOX_EVENT.CLOSE, data: null });
@@ -550,7 +550,7 @@ export class LightboxComponent implements OnInit, AfterViewInit, OnDestroy, OnIn
 
   onClickFootprint() {
     let ipAddress = localStorage.getItem('fp_currentid');
-    console.log(">>>>>>>>>ipAddresS:", ipAddress);
+    // console.log(">>>>>>>>>ipAddresS:", ipAddress);
 
     if (!ipAddress) return;
     let findex = this.album[this.currentImageIndex].ips.findIndex(x => { return x === ipAddress });

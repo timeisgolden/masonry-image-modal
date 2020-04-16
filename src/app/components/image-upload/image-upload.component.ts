@@ -50,7 +50,7 @@ export class ImageUploadComponent implements OnInit {
 
   onSubmitPhotoForm() {
     this.isUploading = true;
-    console.log(this.selectedImage);
+    // console.log(this.selectedImage);
     const id = 'pic' + Math.floor(Math.random() * 1000000);
     // storage path
     const path = 'images/' + id;
@@ -75,7 +75,7 @@ export class ImageUploadComponent implements OnInit {
           footprint: this.photoForm.controls['footprint'].value,
           timestamp: new Date().getTime()
         }
-        console.log("newImage:", newImage);
+        // console.log("newImage:", newImage);
         
         this.imageService.createImage(newImage).then(res => {
           this.isUploading = false;

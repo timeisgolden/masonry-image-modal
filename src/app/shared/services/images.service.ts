@@ -48,7 +48,7 @@ export class ImagesService {
   }
 
   getLikeOfImage(album) {
-    console.log("album:", album);
+    // console.log("album:", album);
     let ipAddress = localStorage.getItem('fp_currentid');
     return this.firestore.doc(this.collectionName + "/" + album.id).collection('likes').doc(ipAddress).get();
   }

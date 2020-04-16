@@ -136,14 +136,14 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
   }
   showMoreImages() {
     this.imagesService.getNextImages(this.lastInResponse).then(data => {
-      console.log(">>>>>>>>>>>>>>next data;");
+      // console.log(">>>>>>>>>>>>>>next data;");
       if (!data.docChanges().length) {
         return;
       }
       this.firstInResponse = data.docChanges()[0].doc;
       this.lastInResponse = data.docChanges()[data.docChanges().length - 1].doc;
       this.convertDocsToArray(data);
-      console.log("this._albums:", this._albums);
+      // console.log("this._albums:", this._albums);
     })
   }
   open(index: number): void {
@@ -156,7 +156,7 @@ export class MasonryImagesComponent implements OnInit, OnDestroy {
     this._lightbox.open(this._albums, index, { alwaysShowNavOnTouchDevices: true, wrapAround: true, showImageNumberLabel: true, centerVertically: true });
   }
   onScroll() {
-    console.log('scrolled!!');
+    // console.log('scrolled!!');
     this.showMoreImages();
   }
 
