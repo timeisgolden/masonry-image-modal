@@ -8,8 +8,8 @@
                 <div class="viewed-users">
                     <img *ngIf="!image.footPrinted" class="lb-footprintImage" src="assets/images/footprint.svg"
                         alt="footprint">
-                    <img *ngIf="image.footPrinted" class="lb-footprintImage"
-                        src="assets/images/footprint_selected.svg" alt="footprint">
+                    <img *ngIf="image.footPrinted" class="lb-footprintImage" src="assets/images/footprint_selected.svg"
+                        alt="footprint">
                     <div class="message-text" [ngClass]="{'footprinted': image.footPrinted}">
                         {{image.likes | countAbtract}}
                     </div>

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CountAbtractPipe } from './count-abtract.pipe';
 
 @NgModule({
-  declarations: [
-    CountAbtractPipe
+  declarations: [CountAbtractPipe],
+  imports: [
+    CommonModule
   ],
-  imports: [],
   exports: [
     CountAbtractPipe
   ]

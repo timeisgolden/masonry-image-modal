@@ -18,8 +18,8 @@ import {
   LightboxEvent,
   LightboxWindowRef,
 } from './lightbox-event.service';
-import { ImagesService } from 'src/app/shared/services/images.service';
-import { Ft_image } from 'src/app/shared/models.model';
+import { Ft_image } from 'app/shared/models/models.model';
+import { ImagesService } from 'app/shared/services/images.service';
 
 @Component({
   templateUrl: './lightbox.component.html',

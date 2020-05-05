@@ -1,13 +1,6 @@
 export const environment = {
   production: true,
   firebase: {
-    // apiKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    // authDomain: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    // databaseURL: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    // projectId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    // storageBucket: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    // messagingSenderId: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
     apiKey: "AIzaSyCSNXc7ReCPqpgn1tTiMFIFc_BDI7XsoxM",
     authDomain: "footprints-6ccc5.firebaseapp.com",
     databaseURL: "https://footprints-6ccc5.firebaseio.com",

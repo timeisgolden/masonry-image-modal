@@ -79,6 +79,6 @@ export class ImageUploadComponent implements OnInit {
           this.toastr.success('uploaded successfully', 'Image Upload');
         });
       })
-    );
+    ).subscribe();
   }
 }

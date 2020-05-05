@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Ft_image } from '../models.model';
 import { Observable } from 'rxjs';
+import { Ft_image } from '../models/models.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +27,7 @@ export class ImagesService {
    */
   getNextImages(lastInResponse) {
     return this.firestore.collection(this.collectionName).ref
-      .limit(20)
+      .limit(10)
       .orderBy('timestamp', 'desc')
       .startAfter(lastInResponse)
       .get();

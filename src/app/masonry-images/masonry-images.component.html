@@ -1,0 +1,54 @@
+<div #wrapper class="wrapper">
+    <app-navbar></app-navbar>
+    <div class="main-panel">
+        <div class="main-content">
+            <div class="content-wrapper">
+                <div class="container-fluid">
+                    <!-- <div class="masonry-demo" infiniteScroll [infiniteScrollDistance]="200"
+                        [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false" #tabsContentRef> -->
+                    <div class="masonry-demo" #tabsContentRef [perfectScrollbar]="config"
+                        (psYReachEnd)="onScrollEvent($event)">
+                        <ngx-masonry [options]="masonryOptions" [useImagesLoaded]="true">
+                            <div ngxMasonryItem *ngFor="let image of _images; let i = index;" class="masonry-item">
+                                <img src="{{image.url}}" (click)="open(i)">
+                                <div *ngIf="!_isMobile" class="overlayed-tap" (click)="open(i)">
+                                    <div class="viewed-users">
+                                        <img *ngIf="!image.footPrinted" class="lb-footprintImage"
+                                            src="assets/images/footprint.svg" alt="footprint">
+                                        <img *ngIf="image.footPrinted" class="lb-footprintImage"
+                                            src="assets/images/footprint_selected.svg" alt="footprint">
+                                        <div class="message-text" [ngClass]="{'footprinted': image.footPrinted}">
+                                            {{image.likes | countAbtract}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="_isMobile && image.isShow" class="masonry-content">
+                                    <div class="lb-likeContainer" (click)="onClickFootprint(image)">
+                                        <img class="lb-footprintImage"
+                                            src="assets/images/footprint{{image.footPrinted ? '_selected' : ''}}.svg">
+                                        <p class="lb-like" [ngClass]="{'footprinted': image.footPrinted}">
+                                            {{image.likes | countAbtract}}
+                                        </p>
+                                    </div>
+                                    <div class="lb-essenceContainer">
+                                        <p class="lb-title">{{image.poster}}'s Essence:</p>
+                                        <p class="lb-description">
+                                            {{image.essence}}
+                                        </p>
+                                    </div>
+                                    <div class="lb-footprintContainer">
+                                        <p class="lb-title">{{image.poster}}'s Footprint:</p>
+                                        <p class="lb-description">
+                                            {{image.footprint}}
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </ngx-masonry>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

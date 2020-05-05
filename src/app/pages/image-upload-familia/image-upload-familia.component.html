@@ -1,0 +1,109 @@
+<div>
+    <form [formGroup]="photoForm" novalidate>
+        <div formArrayName="photosForFamilia" class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 margin-auto"
+                *ngFor="let item of photosForFamilia.controls; let i = index" [formGroupName]="i">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Person{{i+1}}' Image</h4>
+                        <a class="btn btn-social-icon btn-round mr-2 mb-2 btn-outline-adn close-btn"
+                            (click)="deletePhotoFamilia(i)">
+                            <i class="ft-trash-2"></i>
+                        </a>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+
+                            <input id="file_input" type="file" (change)="fileChangeEvent($event, i)"
+                                accept="image/png, image/jpeg">
+                            <div>
+                                <img [src]="photosForFamilia.controls[i].get('url').value" class="iu-image"
+                                    *ngIf="photosForFamilia.controls[i].get('url').value">
+                                <ngb-progressbar *ngIf="photosForFamilia.controls[i].get('isUploading').value"
+                                    type="warning" [value]="100" [striped]="true" [animated]="true"><i>Uploading</i>
+                                </ngb-progressbar>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputEmail">Name</label>
+                                <input type="text" class="form-control" id="poster" formControlName="poster" required>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!photosForFamilia.controls[i].get('poster').valid && (photosForFamilia.controls[i].get('poster').dirty || photosForFamilia.controls[i].get('poster').touched)">
+                                    Name is required!
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputEmail">City</label>
+                                <input type="text" class="form-control" id="city" formControlName="city" required>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!photosForFamilia.controls[i].get('city').valid && (photosForFamilia.controls[i].get('city').dirty || photosForFamilia.controls[i].get('city').touched)">
+                                    City is required!
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">State</label>
+                                <input type="text" class="form-control" id="state" formControlName="state" required>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!photosForFamilia.controls[i].get('state').valid && (photosForFamilia.controls[i].get('state').dirty || photosForFamilia.controls[i].get('state').touched)">
+                                    State is required!
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">Country</label>
+                                <input type="text" class="form-control" id="country" formControlName="country" required>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!photosForFamilia.controls[i].get('country').valid && (photosForFamilia.controls[i].get('country').dirty || photosForFamilia.controls[i].get('country').touched)">
+                                    Country is required!
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">Year Of Birth</label>
+                                <input type="date" class="form-control" id="yearOfBirth" formControlName="yearOfBirth"
+                                    required>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!photosForFamilia.controls[i].get('yearOfBirth').valid && (photosForFamilia.controls[i].get('yearOfBirth').dirty || photosForFamilia.controls[i].get('yearOfBirth').touched)">
+                                    Year Of Birth is required!
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">Essence</label>
+                                <textarea type="text" class="form-control" id="essence" formControlName="essence"
+                                    required></textarea>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!photosForFamilia.controls[i].get('essence').valid && (photosForFamilia.controls[i].get('essence').dirty || photosForFamilia.controls[i].get('essence').touched)">
+                                    Essence is required!
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">Footprint</label>
+                                <textarea type="text" class="form-control" id="footprint" formControlName="footprint"
+                                    required></textarea>
+                                <small class="form-text text-muted danger"
+                                    *ngIf="!photosForFamilia.controls[i].get('footprint').valid && (photosForFamilia.controls[i].get('footprint').dirty || photosForFamilia.controls[i].get('footprint').touched)">
+                                    Footprint is required!
+                                </small>
+                            </div>
+
+                            <div class="form-group text-right">
+                                <!-- <button type="button" class="btn btn-danger btn-raised mr-1">Cancel</button>
+                                <button type="button" class="btn btn-success btn-raised"
+                                    [disabled]="!photoForm.valid">Submit</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="form-element col-sm-12 col-md-4 margin-bottom-10 padding-rl-15" *ngIf="photosForFamilia.length < 5">
+            <button class="btn btn-block btn-raised btn-primary" (click)="addPhotoFamilia()">
+                Add Another Person
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div #paypal [hidden]="!photoForm.valid" class="col-sm-12 col-md-4 margin-bottom-10"></div>
+    </div>
+</div>
