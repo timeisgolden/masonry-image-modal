@@ -1,3 +1,30 @@
+.grid-hover {
+    .row {
+        @media (min-width: 320px) and (max-width: 480px) {
+            margin: 0px !important;
+        }
+    }
+    [class*="col-"] {
+        @media (min-width: 320px) and (max-width: 480px) {
+            padding: 0px !important;
+        }
+    }
+}
+.effect-milo {
+    margin: auto;
+}
+.margin-right-0 {
+    margin-right: 0px;
+}
+.margin-left-0 {
+    margin-left: 0px;
+}
+figure.effect-milo h2 {
+    @media (min-width: 320px) and (max-width: 480px) {
+        padding: 1em 0.2em;
+    }
+}
+
 .card-container {
     display: flex;
     p-card {

@@ -6,6 +6,7 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 import { Observable } from 'rxjs';
 import { ImagesService } from 'app/shared/services/images.service';
 import { NGXToastrService } from 'app/shared/services/toastr.service';
+import { Ft_image } from 'app/shared/models/models.model';
 
 declare var paypal;
 
@@ -49,7 +50,8 @@ export class ImageUploadSoloComponent implements OnInit {
 
   ngOnInit() {
     this.photoForm = this._formBuilder.group({
-      'poster': new FormControl('', Validators.required),
+      'first_name': new FormControl('', Validators.required),
+      'last_name': new FormControl('', Validators.required),
       'city': new FormControl('', Validators.required),
       'state': new FormControl('', Validators.required),
       'country': new FormControl('', Validators.required),
@@ -91,6 +93,10 @@ export class ImageUploadSoloComponent implements OnInit {
       }
     }).render(this.paypalElement.nativeElement)
   }
+  openFileBrowser(event: any) {
+    var temp = document.getElementById('file_input');
+    temp.click();
+  }
   fileChangeEvent(event: any): void {
     this.selectedImage = event.target.files[0];
     var reader = new FileReader();
@@ -118,11 +124,11 @@ export class ImageUploadSoloComponent implements OnInit {
     this.task.snapshotChanges().pipe(
       finalize(async () => {
         this.url = await fileRef.getDownloadURL().toPromise();
-        let newImage: any = {
+        let newImage: Ft_image = {
           url: this.url,
           ips: [],
           likes: 0,
-          poster: this.photoForm.controls['poster'].value,
+          poster: this.photoForm.controls['first_name'].value + " " + this.photoForm.controls['last_name'].value,
           essence: this.photoForm.controls['essence'].value,
           footprint: this.photoForm.controls['footprint'].value,
           city: this.photoForm.controls['city'].value,

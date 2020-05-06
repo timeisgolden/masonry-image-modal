@@ -1,8 +1,14 @@
 <div>
+    <div *ngFor="let alert of alerts">
+        <ngb-alert [type]="alert.type" (close)="closeAlert(alert)">
+            {{alert.message}}
+        </ngb-alert>
+    </div>
     <form [formGroup]="photoForm" novalidate>
-        <div formArrayName="photosForFamilia" class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12 margin-auto"
-                *ngFor="let item of photosForFamilia.controls; let i = index" [formGroupName]="i">
+        <!-- <div formArrayName="photosForFamilia" class="row"> -->
+        <div formArrayName="photosForFamilia">
+            <!-- <div class="col-lg-4 col-md-6 col-sm-12 margin-auto" -->
+            <div class="margin-auto" *ngFor="let item of photosForFamilia.controls; let i = index" [formGroupName]="i">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Person{{i+1}}' Image</h4>
@@ -13,76 +19,119 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input id="file_input" type="file" (change)="fileChangeEvent($event, i)"
+                                            accept="image/png, image/jpeg" hidden="true">
 
-                            <input id="file_input" type="file" (change)="fileChangeEvent($event, i)"
-                                accept="image/png, image/jpeg">
-                            <div>
-                                <img [src]="photosForFamilia.controls[i].get('url').value" class="iu-image"
-                                    *ngIf="photosForFamilia.controls[i].get('url').value">
-                                <ngb-progressbar *ngIf="photosForFamilia.controls[i].get('isUploading').value"
-                                    type="warning" [value]="100" [striped]="true" [animated]="true"><i>Uploading</i>
-                                </ngb-progressbar>
-                            </div>
+                                        <label for="inputEmail">Image</label>
 
-                            <div class="form-group">
-                                <label for="inputEmail">Name</label>
-                                <input type="text" class="form-control" id="poster" formControlName="poster" required>
-                                <small class="form-text text-muted danger"
-                                    *ngIf="!photosForFamilia.controls[i].get('poster').valid && (photosForFamilia.controls[i].get('poster').dirty || photosForFamilia.controls[i].get('poster').touched)">
-                                    Name is required!
-                                </small>
-                            </div>
+                                        <img *ngIf="!photosForFamilia.controls[i].get('url').value" class="iu-image"
+                                            src="assets/images/no_image.jpg" alt=""
+                                            (click)="openFileBrowser($event, i)" />
+                                        <img (click)="openFileBrowser($event, i)"
+                                            [src]="photosForFamilia.controls[i].get('url').value" class="iu-image"
+                                            *ngIf="photosForFamilia.controls[i].get('url').value">
+                                    </div>
+                                    <ngb-progressbar *ngIf="photosForFamilia.controls[i].get('isUploading').value"
+                                        type="warning" [value]="100" [striped]="true" [animated]="true">
+                                        <i>Uploading</i>
+                                    </ngb-progressbar>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail">First Name</label>
+                                                <input type="text" class="form-control" id="first_name"
+                                                    formControlName="first_name" required>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!photosForFamilia.controls[i].get('first_name').valid && (photosForFamilia.controls[i].get('first_name').dirty || photosForFamilia.controls[i].get('first_name').touched)">
+                                                    First Name is required!
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail">Last Name</label>
+                                                <input type="text" class="form-control" id="last_name"
+                                                    formControlName="last_name" required>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!photosForFamilia.controls[i].get('last_name').valid && (photosForFamilia.controls[i].get('last_name').dirty || photosForFamilia.controls[i].get('last_name').touched)">
+                                                    Last Name is required!
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail">City</label>
+                                                <input type="text" class="form-control" id="city" formControlName="city"
+                                                    required>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!photosForFamilia.controls[i].get('city').valid && (photosForFamilia.controls[i].get('city').dirty || photosForFamilia.controls[i].get('city').touched)">
+                                                    City is required!
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail">State</label>
+                                                <input type="text" class="form-control" id="state"
+                                                    formControlName="state" required>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!photosForFamilia.controls[i].get('state').valid && (photosForFamilia.controls[i].get('state').dirty || photosForFamilia.controls[i].get('state').touched)">
+                                                    State is required!
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail">Country</label>
+                                                <input type="text" class="form-control" id="country"
+                                                    formControlName="country" required>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!photosForFamilia.controls[i].get('country').valid && (photosForFamilia.controls[i].get('country').dirty || photosForFamilia.controls[i].get('country').touched)">
+                                                    Country is required!
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail">Date of Birth</label>
+                                                <input type="date" class="form-control" id="yearOfBirth"
+                                                    formControlName="yearOfBirth" required>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!photosForFamilia.controls[i].get('yearOfBirth').valid && (photosForFamilia.controls[i].get('yearOfBirth').dirty || photosForFamilia.controls[i].get('yearOfBirth').touched)">
+                                                    Date of Birth is required!
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail">Essence</label>
+                                                <textarea type="text" class="form-control" id="essence"
+                                                    formControlName="essence" required></textarea>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!photosForFamilia.controls[i].get('essence').valid && (photosForFamilia.controls[i].get('essence').dirty || photosForFamilia.controls[i].get('essence').touched)">
+                                                    Essence is required!
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail">Footprint</label>
+                                                <textarea type="text" class="form-control" id="footprint"
+                                                    formControlName="footprint" required></textarea>
+                                                <small class="form-text text-muted danger"
+                                                    *ngIf="!photosForFamilia.controls[i].get('footprint').valid && (photosForFamilia.controls[i].get('footprint').dirty || photosForFamilia.controls[i].get('footprint').touched)">
+                                                    Footprint is required!
+                                                </small>
+                                            </div>
+                                        </div>
 
-                            <div class="form-group">
-                                <label for="inputEmail">City</label>
-                                <input type="text" class="form-control" id="city" formControlName="city" required>
-                                <small class="form-text text-muted danger"
-                                    *ngIf="!photosForFamilia.controls[i].get('city').valid && (photosForFamilia.controls[i].get('city').dirty || photosForFamilia.controls[i].get('city').touched)">
-                                    City is required!
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail">State</label>
-                                <input type="text" class="form-control" id="state" formControlName="state" required>
-                                <small class="form-text text-muted danger"
-                                    *ngIf="!photosForFamilia.controls[i].get('state').valid && (photosForFamilia.controls[i].get('state').dirty || photosForFamilia.controls[i].get('state').touched)">
-                                    State is required!
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail">Country</label>
-                                <input type="text" class="form-control" id="country" formControlName="country" required>
-                                <small class="form-text text-muted danger"
-                                    *ngIf="!photosForFamilia.controls[i].get('country').valid && (photosForFamilia.controls[i].get('country').dirty || photosForFamilia.controls[i].get('country').touched)">
-                                    Country is required!
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail">Year Of Birth</label>
-                                <input type="date" class="form-control" id="yearOfBirth" formControlName="yearOfBirth"
-                                    required>
-                                <small class="form-text text-muted danger"
-                                    *ngIf="!photosForFamilia.controls[i].get('yearOfBirth').valid && (photosForFamilia.controls[i].get('yearOfBirth').dirty || photosForFamilia.controls[i].get('yearOfBirth').touched)">
-                                    Year Of Birth is required!
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail">Essence</label>
-                                <textarea type="text" class="form-control" id="essence" formControlName="essence"
-                                    required></textarea>
-                                <small class="form-text text-muted danger"
-                                    *ngIf="!photosForFamilia.controls[i].get('essence').valid && (photosForFamilia.controls[i].get('essence').dirty || photosForFamilia.controls[i].get('essence').touched)">
-                                    Essence is required!
-                                </small>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail">Footprint</label>
-                                <textarea type="text" class="form-control" id="footprint" formControlName="footprint"
-                                    required></textarea>
-                                <small class="form-text text-muted danger"
-                                    *ngIf="!photosForFamilia.controls[i].get('footprint').valid && (photosForFamilia.controls[i].get('footprint').dirty || photosForFamilia.controls[i].get('footprint').touched)">
-                                    Footprint is required!
-                                </small>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group text-right">

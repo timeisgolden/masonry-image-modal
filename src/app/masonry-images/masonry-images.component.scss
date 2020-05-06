@@ -2,7 +2,11 @@
 body {
     font-family: "Open Sans", sans-serif;
 }
-
+.main-panel {
+    .main-content {
+        padding-left: 0px !important;
+    }
+}
 .content-wrapper {
     // padding: 0px;
     @media (min-width: 320px) and (max-width: 480px) {
@@ -87,8 +91,13 @@ button {
         width: 100%;
         margin-bottom: 0px;
     }
+    img {
+        transform-origin: 0 0;
+        transition: transfrom .25s, visibility .25s ease-in;
+    }
     &:hover img {
         opacity: 0.8;
+        transform: scale(1.01);
     }
 
     img {

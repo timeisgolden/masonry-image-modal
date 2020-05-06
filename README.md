@@ -1,34 +1,28 @@
-# Angular7 Authentication with Firebase5
+# Apex
 
-Learn to create full Firebase authentication system with Angular7 using AngularFire2 library.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
 
-## Written Article
-[Full Angular 7 Firebase Authentication System](https://www.positronx.io/full-angular-7-firebase-authentication-system)
+## Development server
 
+Run `ng serve` or `ng serve -aot` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-- Sign in with Google
-- Sign in with Facebook
-- Sign in with username/password
-- Sign up with username/password
-- Recover forget password
-- Send verification mail to a newly created user
-- Prevent user to access app dashboard unless email is verified
-- Prevent user to access inner pages unless user is not logged In
-- Prevent user to access sign in and sign up components when a user is already logged in
-- Save user data to localstorage when user is logged in
+## Code scaffolding
 
-**If you love this project then show your love by simply sharing this repo with others and don't forget to put a GitHub star ⭐ ! Thanks** :pray:
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
 
+## Build
 
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Installation Process
-Run `npm install` to install all the required dependencies
+## Running unit tests
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-deploy to firebase
-1. ng build --prod
-2. npm install -g firebase-tools
-   firebase login
-3. firebase init
-4. firebase deploy
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Before running the tests make sure you are serving the app via `ng serve`.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

@@ -1,5 +1,5 @@
 <div class="row text-left">
-    <div class="col-lg-6 col-md-12 col-sm-12 margin-auto">
+    <div class="col-md-12 margin-auto">
         <div class="card">
             <div class="card-header">
                 <!-- <h4 class="card-title">File Upload for Solo</h4> -->
@@ -7,75 +7,115 @@
             <div class="card-content">
                 <div class="card-body">
                     <form [formGroup]="photoForm" novalidate>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input id="file_input" type="file" (change)="fileChangeEvent($event)"
+                                        accept="image/png, image/jpeg" hidden="true">
 
-                        <input id="file_input" type="file" (change)="fileChangeEvent($event)"
-                            accept="image/png, image/jpeg">
-                        <div>
-                            <img [src]="photoForm.controls['url'].value" class="iu-image"
-                                *ngIf="photoForm.controls['url'].value">
-                            <ngb-progressbar *ngIf="isUploading" type="warning" [value]="100" [striped]="true"
-                                [animated]="true"><i>Uploading</i>
-                            </ngb-progressbar>
-                        </div>
+                                    <label for="inputEmail">Image</label>
 
-                        <div class="form-group">
-                            <label for="inputEmail">Name</label>
-                            <input type="text" class="form-control" id="poster" formControlName="poster" required>
-                            <small class="form-text text-muted danger"
-                                *ngIf="!photoForm.get('poster').valid && (photoForm.get('poster').dirty || photoForm.get('poster').touched)">
-                                Name is required!
-                            </small>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail">City</label>
-                            <input type="text" class="form-control" id="city" formControlName="city" required>
-                            <small class="form-text text-muted danger"
-                                *ngIf="!photoForm.get('city').valid && (photoForm.get('city').dirty || photoForm.get('city').touched)">
-                                City is required!
-                            </small>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail">State</label>
-                            <input type="text" class="form-control" id="state" formControlName="state" required>
-                            <small class="form-text text-muted danger"
-                                *ngIf="!photoForm.get('state').valid && (photoForm.get('state').dirty || photoForm.get('state').touched)">
-                                State is required!
-                            </small>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail">Country</label>
-                            <input type="text" class="form-control" id="country" formControlName="country" required>
-                            <small class="form-text text-muted danger"
-                                *ngIf="!photoForm.get('country').valid && (photoForm.get('country').dirty || photoForm.get('country').touched)">
-                                Country is required!
-                            </small>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail">Year Of Birth</label>
-                            <input type="date" class="form-control" id="yearOfBirth" formControlName="yearOfBirth"
-                                required>
-                            <small class="form-text text-muted danger"
-                                *ngIf="!photoForm.get('yearOfBirth').valid && (photoForm.get('yearOfBirth').dirty || photoForm.get('yearOfBirth').touched)">
-                                Year Of Birth is required!
-                            </small>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail">Essence</label>
-                            <textarea type="text" class="form-control" id="essence" formControlName="essence"
-                                required></textarea>
-                            <small class="form-text text-muted danger"
-                                *ngIf="!photoForm.get('essence').valid && (photoForm.get('essence').dirty || photoForm.get('essence').touched)">
-                                Essence is required!
-                            </small>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail">Footprint</label>
-                            <textarea type="text" class="form-control" id="footprint" formControlName="footprint"
-                                required></textarea>
-                            <small class="form-text text-muted danger"
-                                *ngIf="!photoForm.get('footprint').valid && (photoForm.get('footprint').dirty || photoForm.get('footprint').touched)">
-                                Footprint is required!
-                            </small>
+                                    <img *ngIf="!photoForm.controls['url'].value" class="iu-image"
+                                        src="assets/images/no_image.jpg" alt="" (click)="openFileBrowser($event)" />
+                                    <img (click)="openFileBrowser($event)" [src]="photoForm.controls['url'].value"
+                                        class="iu-image" *ngIf="photoForm.controls['url'].value">
+                                    <ngb-progressbar *ngIf="isUploading" type="warning" [value]="100" [striped]="true"
+                                        [animated]="true"><i>Uploading</i>
+                                    </ngb-progressbar>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail">First Name</label>
+                                            <input type="text" class="form-control" id="first_name"
+                                                formControlName="first_name" required>
+                                            <small class="form-text text-muted danger"
+                                                *ngIf="!photoForm.get('first_name').valid && (photoForm.get('first_name').dirty || photoForm.get('first_name').touched)">
+                                                First Name is required!
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail">Last Name</label>
+                                            <input type="text" class="form-control" id="last_name"
+                                                formControlName="last_name" required>
+                                            <small class="form-text text-muted danger"
+                                                *ngIf="!photoForm.get('last_name').valid && (photoForm.get('last_name').dirty || photoForm.get('last_name').touched)">
+                                                Last Name is required!
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail">City</label>
+                                            <input type="text" class="form-control" id="city" formControlName="city"
+                                                required>
+                                            <small class="form-text text-muted danger"
+                                                *ngIf="!photoForm.get('city').valid && (photoForm.get('city').dirty || photoForm.get('city').touched)">
+                                                City is required!
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail">State</label>
+                                            <input type="text" class="form-control" id="state" formControlName="state"
+                                                required>
+                                            <small class="form-text text-muted danger"
+                                                *ngIf="!photoForm.get('state').valid && (photoForm.get('state').dirty || photoForm.get('state').touched)">
+                                                State is required!
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail">Country</label>
+                                            <input type="text" class="form-control" id="country"
+                                                formControlName="country" required>
+                                            <small class="form-text text-muted danger"
+                                                *ngIf="!photoForm.get('country').valid && (photoForm.get('country').dirty || photoForm.get('country').touched)">
+                                                Country is required!
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail">Date of Birth</label>
+                                            <input type="date" class="form-control" id="yearOfBirth"
+                                                formControlName="yearOfBirth" required>
+                                            <small class="form-text text-muted danger"
+                                                *ngIf="!photoForm.get('yearOfBirth').valid && (photoForm.get('yearOfBirth').dirty || photoForm.get('yearOfBirth').touched)">
+                                                Date of Birth is required!
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail">Essence</label>
+                                            <textarea type="text" class="form-control" id="essence"
+                                                formControlName="essence" required></textarea>
+                                            <small class="form-text text-muted danger"
+                                                *ngIf="!photoForm.get('essence').valid && (photoForm.get('essence').dirty || photoForm.get('essence').touched)">
+                                                Essence is required!
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputEmail">Footprint</label>
+                                            <textarea type="text" class="form-control" id="footprint"
+                                                formControlName="footprint" required></textarea>
+                                            <small class="form-text text-muted danger"
+                                                *ngIf="!photoForm.get('footprint').valid && (photoForm.get('footprint').dirty || photoForm.get('footprint').touched)">
+                                                Footprint is required!
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group text-right">

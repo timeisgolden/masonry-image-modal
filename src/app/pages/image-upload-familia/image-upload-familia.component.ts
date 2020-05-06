@@ -24,6 +24,7 @@ export class ImageUploadFamiliaComponent implements OnInit {
   photoForm: FormGroup;
   isUploadingArr: boolean[] = [false];
   selectedImageArr: any[] = [];
+  selectedImageIndex: number = 0;
   url: string;
   id: string;
   file: string;
@@ -32,13 +33,10 @@ export class ImageUploadFamiliaComponent implements OnInit {
   pct: number = 0;
   description: string;
 
-  product = {
-    price: 2000,
-    description: 'used couch, decent condition',
-    img: 'assets/images/solo.jpg'
-  }
-
-  @ViewChild('alert', { static: true }) alert: ElementRef;
+  alerts = [{
+    type: 'info',
+    message: 'To proceed with your submission, please fill out ALL fields.',
+  }]
 
   constructor(
     private activatedRoute: ActivatedRoute, private fb: FormBuilder,
@@ -105,7 +103,8 @@ export class ImageUploadFamiliaComponent implements OnInit {
     //   'isUploading': new FormControl(false)
     // })
     return this._formBuilder.group({
-      'poster': new FormControl('', Validators.required),
+      'first_name': new FormControl('', Validators.required),
+      'last_name': new FormControl('', Validators.required),
       'city': new FormControl('', Validators.required),
       'state': new FormControl('', Validators.required),
       'country': new FormControl('', Validators.required),
@@ -116,6 +115,10 @@ export class ImageUploadFamiliaComponent implements OnInit {
       'active': new FormControl(false),
       'isUploading': new FormControl(false)
     })
+  }
+  public closeAlert(alert: any) {
+    const index: number = this.alerts.indexOf(alert);
+    this.alerts.splice(index, 1);
   }
   get photosForFamilia(): FormArray {
     return this.photoForm.get('photosForFamilia') as FormArray;
@@ -130,12 +133,17 @@ export class ImageUploadFamiliaComponent implements OnInit {
     this.photosForFamilia.removeAt(idx);
   }
 
+  openFileBrowser(event: any, i: number) {
+    this.selectedImageIndex = i;
+    var temp = document.getElementById('file_input');
+    temp.click();
+  }
   fileChangeEvent(event: any, i: number): void {
-    this.selectedImageArr[i] = event.target.files[0];
+    this.selectedImageArr[this.selectedImageIndex] = event.target.files[0];
     var reader = new FileReader();
-    reader.readAsDataURL(this.selectedImageArr[i]);
+    reader.readAsDataURL(this.selectedImageArr[this.selectedImageIndex]);
     reader.onload = (_event) => {
-      this.photosForFamilia.controls[i].get('url').setValue(reader.result);
+      this.photosForFamilia.controls[this.selectedImageIndex].get('url').setValue(reader.result);
     }
     this.pct = 0;
   }
@@ -158,7 +166,7 @@ export class ImageUploadFamiliaComponent implements OnInit {
             url: this.url,
             ips: [],
             likes: 0,
-            poster: photoForFamilia.get('poster').value,
+            poster: photoForFamilia.get('first_name').value + " " + photoForFamilia.get('last_name').value,
             essence: photoForFamilia.get('essence').value,
             footprint: photoForFamilia.get('footprint').value,
             city: photoForFamilia.get('city').value,
@@ -169,7 +177,7 @@ export class ImageUploadFamiliaComponent implements OnInit {
             timestamp: new Date().getTime()
           }
           console.log("newImage:", newImage);
-                    
+
           this.imageService.createImage(newImage).then(res => {
             photoForFamilia.get('isUploading').setValue(false);
 
@@ -194,9 +202,5 @@ export class ImageUploadFamiliaComponent implements OnInit {
     }, error => {
       console.error("call function result error:", error);
     });
-  }
-
-  closeAlert() {
-    this.alert.nativeElement.classList.remove('show');
   }
 }
